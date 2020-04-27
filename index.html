@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chesston</title>
+    <link rel="stylesheet" href="css/page.css">
+    <link rel="stylesheet" href="css/board.css">
+    <script type="module" src="main.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h3>Chesston</h3>
+    <div class="chessboard"></div>
+    <p id="turn"></p>
+    <form>
+      <label for=""></label>  
+      <select id="playerWhite">
+        <option value="human">Human</option>
+        <option value="artifical">Machine</option>
+      </select>
+      <label for="playerWhite">White</label>
+      <select id="playerBlack">
+        <option value="human">Human</option>
+        <option value="artifical">Machine</option>
+      </select>
+      <label for="playerBlack">Black</label><br><br>
+      <input type="submit" id="start-game" value="Start game">
+    </form>
+  </div>
+</body>
+</html>
