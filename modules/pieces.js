@@ -31,6 +31,3 @@ class Piece {
         return div;
     }
 }
-
-
-export { Piece };

@@ -1,6 +1,3 @@
-import { Chessboard } from './modules/board.js';
-import { PlayerFactory } from './modules/player.js';
-
 const board = new Chessboard();
 const playerFactory = new PlayerFactory(board);
 

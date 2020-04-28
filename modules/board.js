@@ -1,9 +1,8 @@
-import { Piece } from './pieces.js';
-import { Chess } from './chess.js';
-
 class Chessboard {
     constructor(fen) {
-        this.chess = new Chess(fen);   
+        this.chess = new Chess(fen);
+        this.UI = new ChessUI();
+
         this.board = document.querySelector('.chessboard');
         this.players = [];
 
@@ -79,6 +78,7 @@ class Chessboard {
     startGame(){
         this.chess.reset();
         this.drawPieces();
+        this.UI.init();
         this.players.forEach(player => player.onNextTurn());
     }
 
@@ -125,7 +125,8 @@ class Chessboard {
         this.resetHighlight();
         this.drawPieces();
 
-        this.players.forEach(player => player.onNextTurn());
+        this.UI.update(board);
+        this.players.forEach(player => player.onNextTurn());      
     }
 
     abortMove(){
@@ -147,5 +148,3 @@ class Chessboard {
         this.squares.forEach((value) => value.classList.remove('highlight'))
     }
 }
-
-export { Chessboard };

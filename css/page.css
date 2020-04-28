@@ -2,3 +2,12 @@
     margin: auto;
     max-width: 400px;
 }
+
+header {
+    display: flex;
+    align-items: center;
+}
+
+header h3 {
+    flex-grow: 1;
+}

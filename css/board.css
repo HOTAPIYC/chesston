@@ -6,6 +6,14 @@
     background-color: #BBB;
 }
 
+.light.highlight {
+    background-color: #00FF00;
+}
+
+.light.highlight:hover {
+    background-color: #00FF00;
+}
+
 .dark {
     background-color: #996430;
 }
@@ -14,12 +22,12 @@
     background-color: #b27438;
 }
 
-.highlight {
-    background-color: chartreuse;
+.dark.highlight {
+    background-color: #00E500;
 }
 
-.highlight:hover {
-    background-color: chartreuse;
+.dark.highlight:hover {
+    background-color: #00E500;
 }
 
 .square {

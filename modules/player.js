@@ -68,5 +68,3 @@ class ArtificalPlayer {
         board.makeMove(selectedMove);
     }
 }
-
-export { PlayerFactory };

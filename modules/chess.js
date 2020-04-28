@@ -1730,5 +1730,3 @@ var Chess = function(fen) {
     }
   }
 }
-
-export { Chess };

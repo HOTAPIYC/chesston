@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chesston</title>
     <link rel="stylesheet" href="css/page.css">
-    <link rel="stylesheet" href="css/board.css">
-    <script type="module" src="main.js"></script>
+    <link rel="stylesheet" href="css/board.css"> 
 </head>
 <body>
   <div class="container">
-    <h3>Chesston</h3>
+    <header>
+      <h3>Chesston</h3>
+      <p id="current-player"></p>
+    </header>
     <div class="chessboard"></div>
     <p id="turn"></p>
     <form>
@@ -28,5 +30,11 @@
       <input type="submit" id="start-game" value="Start game">
     </form>
   </div>
+  <script src="modules/chess.js"></script>
+  <script src="modules/pieces.js"></script>
+  <script src="modules/player.js"></script>
+  <script src="modules/ui.js"></script>
+  <script src="modules/board.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
