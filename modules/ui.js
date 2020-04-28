@@ -4,14 +4,10 @@ class ChessUI {
     }
 
     init() {
-        this.currentPlayer.textContent = 'White';
+        this.currentPlayer.textContent = 'white';
     }
 
     update(board) {
-        if (board.getColor() === 'w') {
-            this.currentPlayer.textContent = 'White';
-        } else {
-            this.currentPlayer.textContent = 'Black'
-        }
+        this.currentPlayer.textContent = board.getColor();
     }
 }

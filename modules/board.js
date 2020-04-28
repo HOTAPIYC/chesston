@@ -2,15 +2,10 @@ class Chessboard {
     constructor(fen) {
         this.chess = new Chess(fen);
         this.UI = new ChessUI();
-
         this.board = document.querySelector('.chessboard');
         this.players = [];
-
-
         this.squares = new Map();
         this.possibleMoves = new Map();
-
-        this.moveStarted = false;
     }
 
     createBoard() {
@@ -18,8 +13,7 @@ class Chessboard {
         // Iterate rows
         for (let i = 8; i > 0; i--) {
             let row = document.createElement('div');
-            row.classList.add('row');
-            
+            row.classList.add('row');           
             // Iterate columns
             // Char 97-104 are lower case a-h in ASCII
             for (let k = 97; k < 105; k++) {
@@ -32,13 +26,11 @@ class Chessboard {
                 } else {
                     square.classList.add('dark');
                 }
-
                 row.appendChild(square);
                 this.squares.set(square.id, square);
             }
             this.board.appendChild(row);
         }
-
         // Forward clicks to the currently active player
         document.addEventListener('click', event => {
             if(event.target.classList.contains('square') 
@@ -48,7 +40,7 @@ class Chessboard {
                 });
                 currPlayer.onClick(event);
             } else {
-                this.abortMove();
+                this.resetHighlight();
             }
         });
     }
@@ -56,16 +48,18 @@ class Chessboard {
     drawPieces() {
         const boardState = this.chess.board();
         const squaresArray = Array.from(this.squares);
-
         let count = 0;
-
         boardState.forEach(row => {
             row.forEach(fen => {
-                const piece = new Piece();
-
                 squaresArray[count][1].textContent = ''; // Clear existing content
-                squaresArray[count][1].appendChild(piece.getElement(fen));
-
+                if(fen !== null){
+                    // Convert FEN object to single FEN character
+                    const piece = new Piece(
+                        fen.color === 'w' ? 
+                        fen.type.toUpperCase() : 
+                        fen.type.toLowerCase());
+                    squaresArray[count][1].appendChild(piece.getElement());
+                }
                 count++;
             });
         });
@@ -83,61 +77,65 @@ class Chessboard {
     }
 
     getColor() {
-        return this.chess.turn();
+        return this.chess.turn() === 'w' ? 'white' : 'black';
     }
 
-    selectPiece(color, event) {
+    selectPiece(color, event) { // Returns if move is in progress
         if(event.target.classList.contains(color)) {
-            this.possibleMoves = new Map(); // Reset possible moves
-            
+            this.possibleMoves = new Map(); // Reset possible moves      
             this.chess.moves({ square: event.target.parentElement.id}).forEach(move => {
                 // Decode targets from moves in SAN notation
                 const targetSquare = /[a-h][1-8]/
                 this.possibleMoves.set(move.match(targetSquare)[0], move);
             });
-
             this.setHighlight(event.target.parentElement);
-            return true; // Piece selected
+            return true;
         } else {
-            return false; // No piece selected
+            this.resetHighlight();
+            return false;
         }
     }
 
-    selectTarget(event) {
+    selectTarget(color, event) { // Returns if move is in progress
         if(event.target.classList.contains('piece')) {
             if(event.target.parentElement.classList.contains('highlight')) {
                 const selectedMove = this.possibleMoves.get(event.target.parentElement.id);
-                this.makeMove(selectedMove); 
-            }                   
+                this.makeMove(selectedMove);
+                return false;
+            } else {
+                // User has clicked on another piece
+                if(event.target.classList.contains(color)) {
+                    return this.selectPiece(color, event);
+                } else {
+                    this.resetHighlight();
+                    return false;
+                }
+            }                
         }
         if(event.target.classList.contains('square')) {
             if(event.target.classList.contains('highlight')) {
                 const selectedMove = this.possibleMoves.get(event.target.id);
                 this.makeMove(selectedMove);
-            } 
-        }
-        return false;
+                return false;
+            } else {
+                // User has clicked on a unhighlighted square to abort the move
+                this.resetHighlight();
+                return false;
+            }
+        }  
     }
 
     makeMove(selectedMove){
         this.chess.move(selectedMove);
-
         this.resetHighlight();
         this.drawPieces();
-
         this.UI.update(board);
         this.players.forEach(player => player.onNextTurn());      
     }
 
-    abortMove(){
-        this.resetHighlight();
-    }
-
     setHighlight(selectedSquare) {
         this.resetHighlight();     
-
         selectedSquare.classList.add('highlight');
-
         this.possibleMoves.forEach((value, key) => {
             const square = this.squares.get(key);
             square.classList.add('highlight');

@@ -31,7 +31,7 @@ class HumanPlayer {
         if(!this.moveStarted) {
             this.moveStarted = this.board.selectPiece(this.color, event);
         } else {
-            this.moveStarted = this.board.selectTarget(event);
+            this.moveStarted = this.board.selectTarget(this.color, event);
         }
     }
 

@@ -1,32 +1,32 @@
 class Piece {
-    constructor(){
+    constructor(fen){
         this.pieces = new Map();
 
-        this.pieces.set('kw', '\u2654');
-        this.pieces.set('qw', '\u2655');
-        this.pieces.set('rw', '\u2656');
-        this.pieces.set('bw', '\u2657');
-        this.pieces.set('nw', '\u2658');
-        this.pieces.set('pw', '\u2659');
+        this.pieces.set('K', '\u2654');
+        this.pieces.set('Q', '\u2655');
+        this.pieces.set('R', '\u2656');
+        this.pieces.set('B', '\u2657');
+        this.pieces.set('N', '\u2658');
+        this.pieces.set('P', '\u2659');
         
-        this.pieces.set('kb', '\u265A');
-        this.pieces.set('qb', '\u265B');
-        this.pieces.set('rb', '\u265C');
-        this.pieces.set('bb', '\u265D');
-        this.pieces.set('nb', '\u265E');
-        this.pieces.set('pb', '\u265F');
+        this.pieces.set('k', '\u265A');
+        this.pieces.set('q', '\u265B');
+        this.pieces.set('r', '\u265C');
+        this.pieces.set('b', '\u265D');
+        this.pieces.set('n', '\u265E');
+        this.pieces.set('p', '\u265F');
+
+        this.fen = fen;
     }
     
-    getElement(fen){
+    getElement(){
         let div = document.createElement('div');
   
-        if(fen !== null) {
-            div.classList.add('piece');
-            div.classList.add(fen.type);
-            div.classList.add(fen.color);
-    
-            div.textContent = this.pieces.get(`${fen.type}${fen.color}`);
-        }
+        div.classList.add('piece');
+        div.classList.add(`fen-${this.fen}`);
+        div.classList.add(this.fen === this.fen.toUpperCase() ? 'white' : 'black');
+
+        div.textContent = this.pieces.get(this.fen);
 
         return div;
     }
