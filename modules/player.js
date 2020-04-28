@@ -25,6 +25,9 @@ class HumanPlayer {
 
         this.currentColor = '';
         this.moveStarted = false;
+
+        this.board.addEventListener(`click ${this.color}`, event => this.onClick(event));
+        this.board.addEventListener('next turn', event => this.onNextTurn(event));
     }
 
     onClick(event) {
@@ -35,7 +38,7 @@ class HumanPlayer {
         }
     }
 
-    onNextTurn() {
+    onNextTurn(event) {
         this.currentColor = this.board.getColor();
     }
 }
@@ -46,13 +49,11 @@ class ArtificalPlayer {
         this.color = color;
 
         this.currentColor = '';
+
+        this.board.addEventListener('next turn', event => this.onNextTurn(event));
     }
 
-    onClick(event) {
-        // Nothing
-    }
-
-    onNextTurn() {
+    onNextTurn(event) {
         this.currentColor = this.board.getColor();
 
         // On this players turn make a random move
@@ -60,7 +61,7 @@ class ArtificalPlayer {
             const moves = this.board.chess.moves();
             const selectedMove = moves[Math.floor(Math.random() * moves.length)];
             // Simulate thinking
-            setTimeout(this.makeMove,2000,this.board, selectedMove);
+            setTimeout(this.makeMove,2000,this.board,selectedMove);
         }
     }
 

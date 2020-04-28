@@ -16,24 +16,23 @@
     <div class="chessboard"></div>
     <p id="turn"></p>
     <form>
-      <label for=""></label>  
-      <select id="playerWhite">
+      <select id="player-white">
         <option value="human">Human</option>
         <option value="artifical">Machine</option>
       </select>
-      <label for="playerWhite">White</label>
-      <select id="playerBlack">
+      <label for="player-white">White</label>
+      <select id="player-black">
         <option value="human">Human</option>
         <option value="artifical">Machine</option>
       </select>
-      <label for="playerBlack">Black</label><br><br>
+      <label for="player-black">Black</label><br><br>
       <input type="submit" id="start-game" value="Start game">
     </form>
   </div>
+  <script src="modules/utils.js"></script>
   <script src="modules/chess.js"></script>
   <script src="modules/pieces.js"></script>
   <script src="modules/player.js"></script>
-  <script src="modules/ui.js"></script>
   <script src="modules/board.js"></script>
   <script src="main.js"></script>
 </body>

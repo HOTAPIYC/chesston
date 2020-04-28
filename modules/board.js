@@ -1,9 +1,9 @@
-class Chessboard {
+class Chessboard extends EventObserver {
     constructor(fen) {
+        super();
+
         this.chess = new Chess(fen);
-        this.UI = new ChessUI();
         this.board = document.querySelector('.chessboard');
-        this.players = [];
         this.squares = new Map();
         this.possibleMoves = new Map();
     }
@@ -13,7 +13,8 @@ class Chessboard {
         // Iterate rows
         for (let i = 8; i > 0; i--) {
             let row = document.createElement('div');
-            row.classList.add('row');           
+            row.classList.add('row'); 
+
             // Iterate columns
             // Char 97-104 are lower case a-h in ASCII
             for (let k = 97; k < 105; k++) {
@@ -31,14 +32,12 @@ class Chessboard {
             }
             this.board.appendChild(row);
         }
+
         // Forward clicks to the currently active player
         document.addEventListener('click', event => {
             if(event.target.classList.contains('square') 
             || event.target.classList.contains('piece')) {
-                const currPlayer = this.players.find(player => {
-                    return player.color === this.getColor();
-                });
-                currPlayer.onClick(event);
+                this.emitEvent(`click ${this.getColor()}`, event);
             } else {
                 this.resetHighlight();
             }
@@ -65,19 +64,23 @@ class Chessboard {
         });
     }
 
-    registerPlayer(player) {
-        this.players.push(player);
-    }
-
-    startGame(){
+    init(){
         this.chess.reset();
         this.drawPieces();
-        this.UI.init();
-        this.players.forEach(player => player.onNextTurn());
+        this.emitEvent('init');
     }
 
     getColor() {
         return this.chess.turn() === 'w' ? 'white' : 'black';
+    }
+
+    checkBoardEvents() {
+        return {
+            gameover: this.chess.game_over(),
+            check: this.chess.in_check(),
+            checkmate: this.chess.in_checkmate(),
+            draw: this.chess.in_draw()
+        };
     }
 
     selectPiece(color, event) { // Returns if move is in progress
@@ -129,8 +132,7 @@ class Chessboard {
         this.chess.move(selectedMove);
         this.resetHighlight();
         this.drawPieces();
-        this.UI.update(board);
-        this.players.forEach(player => player.onNextTurn());      
+        this.emitEvent('next turn');     
     }
 
     setHighlight(selectedSquare) {
@@ -139,7 +141,7 @@ class Chessboard {
         this.possibleMoves.forEach((value, key) => {
             const square = this.squares.get(key);
             square.classList.add('highlight');
-        })    
+        })
     }
 
     resetHighlight(){
