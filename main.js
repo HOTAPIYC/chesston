@@ -11,6 +11,8 @@ startButton.addEventListener('click', event => {
     const selectionWhite = document.querySelector('#player-white').value;
     const selectionBlack = document.querySelector('#player-black').value;
 
+    board.removePlayer();
+
     const player1 = playerFactory.createPlayer(selectionWhite,'w');
     const player2 = playerFactory.createPlayer(selectionBlack,'b');
     
@@ -19,11 +21,15 @@ startButton.addEventListener('click', event => {
     event.preventDefault();
 });
 
-const currentPlayer = document.querySelector('#current-player');
+const currentPlayer = document.querySelector('#game-dialog');
 
 board.addEventListener('init',event => {
-    currentPlayer.textContent = 'w';
+    currentPlayer.textContent = 'Active player: white';
 });  
 board.addEventListener('next turn',event => {
-    currentPlayer.textContent = board.getColor();
+    if(board.getColor() === 'w') {
+        currentPlayer.textContent = 'Active player: white';
+    } else {
+        currentPlayer.textContent = 'Active player: black';
+    }
 });

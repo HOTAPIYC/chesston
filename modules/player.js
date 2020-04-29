@@ -19,15 +19,15 @@ class PlayerFactory {
 }
 
 class HumanPlayer {
-    constructor(board, color){
+    constructor(board, color){    
         this.board = board;
+        
         this.color = color;
-
         this.currentColor = '';
         this.moveStarted = false;
 
-        this.board.addEventListener(`click ${this.color}`, event => this.onClick(event));
-        this.board.addEventListener('next turn', event => this.onNextTurn(event));
+        this.board.addEventListener(`click ${this.color}`, event => this.onClick(event), 'player');
+        this.board.addEventListener('next turn', event => this.onNextTurn(event), 'player');
     }
 
     onClick(event) {
@@ -46,11 +46,11 @@ class HumanPlayer {
 class ArtificalPlayer {
     constructor(board, color){
         this.board = board;
+
         this.color = color;
-
-        this.currentColor = '';
-
-        this.board.addEventListener('next turn', event => this.onNextTurn(event));
+        this.currentColor = ''; 
+        
+        this.board.addEventListener('next turn', event => this.onNextTurn(event), 'player');
     }
 
     onNextTurn(event) {

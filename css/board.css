@@ -1,11 +1,11 @@
 /* Squares */
 
 .light {
-    background-color: #DDD;
+    background-color: #ffce9e;
 }
 
 .light:hover {
-    background-color: #BBB;
+    background-color: #ffe347
 }
 
 .light.highlight {
@@ -17,11 +17,11 @@
 }
 
 .dark {
-    background-color: #996430;
+    background-color: #d18b47;
 }
 
 .dark:hover {
-    background-color: #b27438;
+    background-color: #ffe347
 }
 
 .dark.highlight {

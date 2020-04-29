@@ -8,31 +8,45 @@
     <link rel="stylesheet" href="css/board.css"> 
 </head>
 <body>
+<div class="appbar">
   <div class="container">
     <header>
       <h3>Chesston</h3>
-      <p id="current-player"></p>
     </header>
-    <div class="chessboard"></div>
-    <p id="turn"></p>
-    <form>
-      <select id="player-white">
-        <option value="human">Human</option>
-        <option value="artifical">Machine</option>
-      </select>
-      <label for="player-white">White</label>
-      <select id="player-black">
-        <option value="human">Human</option>
-        <option value="artifical">Machine</option>
-      </select>
-      <label for="player-black">Black</label><br><br>
-      <input type="submit" id="start-game" value="Start game">
-    </form>
   </div>
-  <script src="modules/utils.js"></script>
-  <script src="modules/chess.js"></script>
-  <script src="modules/player.js"></script>
-  <script src="modules/board.js"></script>
-  <script src="main.js"></script>
+</div>
+<div class="container">
+  <div class="content">
+    <div class="chessboard"></div>
+    <div class="output">
+      <label class="dropdown-label" for="player-black">Info</label>
+      <p id="game-dialog">Start a game!</p>
+    </div>
+    <form>
+      <div class="select-grp">
+        <div class="player-select">
+          <label class="dropdown-label" for="player-white">White</label>
+          <select id="player-white">
+            <option value="human">Human</option>
+            <option value="artifical">Machine</option>
+          </select>  
+        </div>
+        <div class="player-select">
+          <label class="dropdown-label" for="player-black">Black</label>
+          <select id="player-black">
+            <option value="human">Human</option>
+            <option value="artifical">Machine</option>
+          </select>     
+        </div>
+      </div>
+      <input class="btn-primary" type="submit" id="start-game" value="START GAME">
+    </form>
+  </div>  
+</div>
+<script src="modules/utils.js"></script>
+<script src="modules/chess.js"></script>
+<script src="modules/player.js"></script>
+<script src="modules/board.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

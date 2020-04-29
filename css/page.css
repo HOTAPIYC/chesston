@@ -1,13 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: 0 !important;
+}
+
+body {
+    background-color: #fcefa4
+}
+
 .container {
     margin: auto;
     max-width: 400px;
 }
 
-header {
+.content {
+    padding: 10px;
+}
+
+.appbar {
+    background-color: #fcb979;
+}
+.appbar header {
+    padding: 10px;
     display: flex;
     align-items: center;
 }
-
-header h3 {
+.appbar header h3 {
     flex-grow: 1;
+}
+
+.btn-primary {
+    display: block;
+    margin: auto;
+    width: 50%;
+    height: 30px;
+    padding: 5px;
+    color: #996430;
+    background-color: #fcefa4;
+    border: 1px #996430 solid;
+}
+.btn-primary:hover {
+    color: #fcefa4;
+    background-color: #996430;
+}
+
+.select-grp {
+    display: flex;
+    margin-bottom: 20px;
+}
+.player-select {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 5px;
+}
+.player-select label {
+    padding: 5px;
+}
+.player-select select {
+    height: 30px;
+    width: 100%;
+    border: 1px #996430 solid;
+}
+
+.output {
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+.output label {
+    padding: 5px;
+}
+.output p {
+    padding: 5px;
+    background-color: #AAA;
 }

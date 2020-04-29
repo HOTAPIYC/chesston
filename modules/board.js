@@ -1,7 +1,6 @@
 class Chessboard extends EventObserver {
     constructor(fen) {
         super();
-
         this.chess = new Chess(fen);
         this.board = document.querySelector('.chessboard');
         this.squares = new Map();
@@ -77,6 +76,10 @@ class Chessboard extends EventObserver {
             checkmate: this.chess.in_checkmate(),
             draw: this.chess.in_draw()
         };
+    }
+
+    removePlayer() {
+        this.removeEventListener('player');
     }
 
     selectPiece(color, event) { // Returns if move is in progress
