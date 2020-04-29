@@ -11,8 +11,8 @@ startButton.addEventListener('click', event => {
     const selectionWhite = document.querySelector('#player-white').value;
     const selectionBlack = document.querySelector('#player-black').value;
 
-    const player1 = playerFactory.createPlayer(selectionWhite,'white');
-    const player2 = playerFactory.createPlayer(selectionBlack,'black');
+    const player1 = playerFactory.createPlayer(selectionWhite,'w');
+    const player2 = playerFactory.createPlayer(selectionBlack,'b');
     
     board.init();
 
@@ -22,7 +22,7 @@ startButton.addEventListener('click', event => {
 const currentPlayer = document.querySelector('#current-player');
 
 board.addEventListener('init',event => {
-    currentPlayer.textContent = 'white';
+    currentPlayer.textContent = 'w';
 });  
 board.addEventListener('next turn',event => {
     currentPlayer.textContent = board.getColor();

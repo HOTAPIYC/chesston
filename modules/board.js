@@ -35,8 +35,7 @@ class Chessboard extends EventObserver {
 
         // Forward clicks to the currently active player
         document.addEventListener('click', event => {
-            if(event.target.classList.contains('square') 
-            || event.target.classList.contains('piece')) {
+            if(event.target.classList.contains('square')) {
                 this.emitEvent(`click ${this.getColor()}`, event);
             } else {
                 this.resetHighlight();
@@ -50,15 +49,12 @@ class Chessboard extends EventObserver {
         let count = 0;
         boardState.forEach(row => {
             row.forEach(fen => {
-                squaresArray[count][1].textContent = ''; // Clear existing content
+                const square = squaresArray[count][1];
+                square.className = square.className.replace(/fen-./, "");
                 if(fen !== null){
-                    // Convert FEN object to single FEN character
-                    const piece = new Piece(
-                        fen.color === 'w' ? 
-                        fen.type.toUpperCase() : 
-                        fen.type.toLowerCase());
-                    squaresArray[count][1].appendChild(piece.getElement());
+                    square.classList.add(`fen-${fen.type}-${fen.color}`);
                 }
+                squaresArray[count][1] = square;
                 count++;
             });
         });
@@ -71,7 +67,7 @@ class Chessboard extends EventObserver {
     }
 
     getColor() {
-        return this.chess.turn() === 'w' ? 'white' : 'black';
+        return this.chess.turn();
     }
 
     checkBoardEvents() {
@@ -84,14 +80,14 @@ class Chessboard extends EventObserver {
     }
 
     selectPiece(color, event) { // Returns if move is in progress
-        if(event.target.classList.contains(color)) {
+        if(event.target.className.search(new RegExp(`fen-.-${color}`)) > -1) {
             this.possibleMoves = new Map(); // Reset possible moves      
-            this.chess.moves({ square: event.target.parentElement.id}).forEach(move => {
+            this.chess.moves({ square: event.target.id}).forEach(move => {
                 // Decode targets from moves in SAN notation
                 const targetSquare = /[a-h][1-8]/
                 this.possibleMoves.set(move.match(targetSquare)[0], move);
             });
-            this.setHighlight(event.target.parentElement);
+            this.setHighlight(event.target);
             return true;
         } else {
             this.resetHighlight();
@@ -100,32 +96,13 @@ class Chessboard extends EventObserver {
     }
 
     selectTarget(color, event) { // Returns if move is in progress
-        if(event.target.classList.contains('piece')) {
-            if(event.target.parentElement.classList.contains('highlight')) {
-                const selectedMove = this.possibleMoves.get(event.target.parentElement.id);
-                this.makeMove(selectedMove);
-                return false;
-            } else {
-                // User has clicked on another piece
-                if(event.target.classList.contains(color)) {
-                    return this.selectPiece(color, event);
-                } else {
-                    this.resetHighlight();
-                    return false;
-                }
-            }                
+        if(event.target.classList.contains('highlight')) {
+            const selectedMove = this.possibleMoves.get(event.target.id);
+            this.makeMove(selectedMove);
+            return false;
+        } else {
+            return this.selectPiece(color, event);
         }
-        if(event.target.classList.contains('square')) {
-            if(event.target.classList.contains('highlight')) {
-                const selectedMove = this.possibleMoves.get(event.target.id);
-                this.makeMove(selectedMove);
-                return false;
-            } else {
-                // User has clicked on a unhighlighted square to abort the move
-                this.resetHighlight();
-                return false;
-            }
-        }  
     }
 
     makeMove(selectedMove){
