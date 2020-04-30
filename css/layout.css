@@ -1,0 +1,18 @@
+.appbar {
+    display: block;
+    height: 3.5rem;
+    line-height: 3.5rem;
+    padding-left: 2rem;
+    color: var(--color-text-on-primary);
+    background-color: var(--color-primary);
+    box-shadow: 0 0.125rem 0.4rem #00000066, 0 0 0.4rem #00000033;
+    width: 100%;
+    position: fixed;
+    top: 0;
+}
+
+.card {
+    padding: 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.2rem #00000033, 0 0 0.4rem #00000011;
+}

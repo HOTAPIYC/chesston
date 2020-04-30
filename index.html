@@ -4,43 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chesston</title>
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/inputs.css">
+    <link rel="stylesheet" href="css/layout.css">
     <link rel="stylesheet" href="css/page.css">
     <link rel="stylesheet" href="css/board.css"> 
 </head>
 <body>
 <div class="appbar">
-  <div class="container">
-    <header>
-      <h3>Chesston</h3>
-    </header>
-  </div>
+  <h6>Chesston</h6>
 </div>
 <div class="container">
   <div class="content">
-    <div class="chessboard"></div>
-    <div class="output">
-      <label class="dropdown-label" for="player-black">Info</label>
-      <p id="game-dialog">Start a game!</p>
-    </div>
-    <form>
-      <div class="select-grp">
-        <div class="player-select">
+    <div class="chessboard card"></div>
+    <div id="control-panel">
+      <div id="output">
+        <p id="game-dialog">Start a game!</p>
+      </div>
+      <form>
+        <div id="select-white">
           <label class="dropdown-label" for="player-white">White</label>
-          <select id="player-white">
+          <select class="inp-dropdown inp-dropdown-outline" id="player-white">
             <option value="human">Human</option>
             <option value="artifical">Machine</option>
           </select>  
         </div>
-        <div class="player-select">
+        <div id="select-black">
           <label class="dropdown-label" for="player-black">Black</label>
-          <select id="player-black">
+          <select class="inp-dropdown inp-dropdown-outline" id="player-black">
             <option value="human">Human</option>
             <option value="artifical">Machine</option>
           </select>     
         </div>
-      </div>
-      <input class="btn-primary" type="submit" id="start-game" value="START GAME">
-    </form>
+        <input class="btn btn-primary" type="submit" id="start-game" value="START GAME">
+      </form>
+    </div>
   </div>  
 </div>
 <script src="modules/utils.js"></script>

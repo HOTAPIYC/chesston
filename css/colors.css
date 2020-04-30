@@ -1,0 +1,11 @@
+:root {
+    --color-primary: #6200EEFF;
+    --color-primary-hover-transparent: #6200EE11;
+    --color-primary-hover: #6F14EFFF;
+    --color-transparent: #00000000;
+    --color-input-background: #e8e8e8FF;
+
+    --color-text-on-primary: #FFFFFFFF;
+    --color-text-bold: #000000FF;
+    --color-text-label: #757575FF;
+}

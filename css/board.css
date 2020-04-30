@@ -1,6 +1,6 @@
 /* Squares */
 
-.light {
+.light, .light:focus {
     background-color: #ffce9e;
 }
 
@@ -16,7 +16,7 @@
     background-color: rgb(5, 218, 5);
 }
 
-.dark {
+.dark, .dark:focus {
     background-color: #d18b47;
 }
 

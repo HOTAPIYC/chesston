@@ -8,74 +8,57 @@
     outline: 0 !important;
 }
 
-body {
-    background-color: #fcefa4
-}
-
 .container {
     margin: auto;
     max-width: 400px;
 }
 
 .content {
+    margin-top: 3.5rem;
     padding: 10px;
 }
 
-.appbar {
-    background-color: #fcb979;
-}
-.appbar header {
-    padding: 10px;
-    display: flex;
-    align-items: center;
-}
-.appbar header h3 {
-    flex-grow: 1;
+#control-panel {
+    padding: 1rem;
 }
 
-.btn-primary {
-    display: block;
-    margin: auto;
-    width: 50%;
-    height: 30px;
-    padding: 5px;
-    color: #996430;
-    background-color: #fcefa4;
-    border: 1px #996430 solid;
-}
-.btn-primary:hover {
-    color: #fcefa4;
-    background-color: #996430;
-}
-
-.select-grp {
-    display: flex;
+form {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
     margin-bottom: 20px;
 }
-.player-select {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    padding: 5px;
-}
-.player-select label {
-    padding: 5px;
-}
-.player-select select {
-    height: 30px;
-    width: 100%;
-    border: 1px #996430 solid;
+
+form #select-white {
+    grid-column: 1;
+    grid-row: 1;
+    padding-right: 0.2rem;
 }
 
-.output {
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
+form #select-white label, form #select-black label {
+    padding-left: 0.5rem;
 }
-.output label {
-    padding: 5px;
+
+form #select-white select, form #select-black select {
+    width: 100%;
 }
-.output p {
-    padding: 5px;
-    background-color: #AAA;
+
+form #select-black {
+    grid-column: 2;
+    grid-row: 1;
+    padding-left: 0.2rem;
+}
+
+form input {
+    margin-top: 2rem;
+    grid-column: 1 / span 2;
+    grid-row: 2;
+}
+
+#output {
+    padding: 1rem 0;
+}
+
+#output p {
+    font-family: var(--font-family-mediun);
 }
