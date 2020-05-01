@@ -1,35 +1,19 @@
 /* Squares */
 
-.light, .light:focus {
+.light {
     background-color: #ffce9e;
-}
-
-.light:hover {
-    background-color: #ffe347
 }
 
 .light.highlight {
     background-color: #00FF00;
 }
 
-.light.highlight:hover {
-    background-color: rgb(5, 218, 5);
-}
-
-.dark, .dark:focus {
+.dark {
     background-color: #d18b47;
-}
-
-.dark:hover {
-    background-color: #ffe347
 }
 
 .dark.highlight {
     background-color: #00E500;
-}
-
-.dark.highlight:hover {
-    background-color: #63f763;
 }
 
 .square {

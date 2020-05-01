@@ -84,7 +84,7 @@
 
 .btn-outline {
     color: var(--color-primary);
-    background-color: var(--color-transparent);
+    background-color: transparent;
     border: 0.13rem var(--color-primary) solid;
     box-shadow: none;
 }
@@ -97,7 +97,7 @@
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     color: var(--color-primary);
-    background-color: var(--color-transparent);
+    background-color: transparent;
     box-shadow: none;
 }
 
