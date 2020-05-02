@@ -69,6 +69,14 @@ class Chessboard extends EventObserver {
         return this.chess.turn();
     }
 
+    getPossibleMoves(square) {
+        if(square === undefined) {
+            return this.chess.moves();
+        } else {
+            return this.chess.moves({ square: square});
+        }
+    }
+
     checkBoardEvents() {
         return {
             gameover: this.chess.game_over(),
@@ -82,32 +90,6 @@ class Chessboard extends EventObserver {
         this.removeEventListener('player');
     }
 
-    selectPiece(color, event) { // Returns if move is in progress
-        if(event.target.className.search(new RegExp(`fen-.-${color}`)) > -1) {
-            this.possibleMoves = new Map(); // Reset possible moves      
-            this.chess.moves({ square: event.target.id}).forEach(move => {
-                // Decode targets from moves in SAN notation
-                const targetSquare = /[a-h][1-8]/
-                this.possibleMoves.set(move.match(targetSquare)[0], move);
-            });
-            this.setHighlight(event.target);
-            return true;
-        } else {
-            this.resetHighlight();
-            return false;
-        }
-    }
-
-    selectTarget(color, event) { // Returns if move is in progress
-        if(event.target.classList.contains('highlight')) {
-            const selectedMove = this.possibleMoves.get(event.target.id);
-            this.makeMove(selectedMove);
-            return false;
-        } else {
-            return this.selectPiece(color, event);
-        }
-    }
-
     makeMove(selectedMove){
         this.chess.move(selectedMove);
         this.resetHighlight();
@@ -115,10 +97,10 @@ class Chessboard extends EventObserver {
         this.emitEvent('next turn');     
     }
 
-    setHighlight(selectedSquare) {
+    setHighlight(squares) {
         this.resetHighlight();     
-        selectedSquare.classList.add('highlight');
-        this.possibleMoves.forEach((value, key) => {
+
+        squares.forEach((value, key) => {
             const square = this.squares.get(key);
             square.classList.add('highlight');
         })
