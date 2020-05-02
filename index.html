@@ -42,6 +42,35 @@
     </div>
   </div>  
 </div>
+<div id="promotion-dialog" class="modal">
+  <div class="modal-content">
+    <div class="modal-content-header">
+      <h6>Promotion</h6>
+    </div>
+    <div class="modal-content-body">
+      <p>Your pawn recieves a promotion! Make a selection:</p>
+      <div class="inp-radio">
+        <input type="radio" id="promo-Q" name="promotion" value="Q">
+        <label for="promo-Q">Queen</label>
+      </div>
+      <div class="inp-radio">
+        <input type="radio" id="promo-B" name="promotion" value="B">
+        <label for="promo-B">Bishop</label>
+      </div>
+      <div class="inp-radio">
+        <input type="radio" id="promo-N" name="promotion" value="N">
+        <label for="promo-N">Knight</label>
+      </div>
+      <div class="inp-radio">
+        <input type="radio" id="promo-R" name="promotion" value="R">
+        <label for="promo-R">Rook</label>
+      </div>
+    </div>
+    <div class="modal-content-controls">
+      <button id="promotion-dialog-close" class="btn btn-text">PROMOTE</button>
+    </div>
+  </div>
+</div>
 <script src="modules/utils.js"></script>
 <script src="modules/chess.js"></script>
 <script src="modules/player.js"></script>

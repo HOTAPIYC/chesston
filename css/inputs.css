@@ -116,3 +116,20 @@
 .btn-text:focus {
     background-color: transparent;
 }
+
+.inp-radio {
+    display: flex;
+    align-items: center;
+    height: 1.5rem;
+    padding-left: 1rem;
+    margin-top: 0.75rem;
+}
+
+.inp-radio label {
+    padding-left: 0.75rem;
+    font-size: 1rem;
+}
+
+.inp-radio input:checked {
+    color: var(--color-primary);
+}
