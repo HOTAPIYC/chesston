@@ -82,6 +82,10 @@
     background-color: var(--color-primary-hover);
 }
 
+.btn-primary:focus {
+    background-color: var(--color-primary);
+}
+
 .btn-outline {
     color: var(--color-primary);
     background-color: transparent;
@@ -91,6 +95,10 @@
 
 .btn-outline:hover {
     background-color: var(--color-primary-hover-transparent);
+}
+
+.btn-outline:focus {
+    background-color: transparent;
 }
 
 .btn-text {
@@ -103,4 +111,8 @@
 
 .btn-text:hover {
     color: var(--color-primary-hover);
+}
+
+.btn-text:focus {
+    background-color: transparent;
 }
