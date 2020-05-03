@@ -7,7 +7,7 @@ The artifical player currently plays random moves only.
 
 The CSS of this application is inspired by Googles Material Design and roughly follows the guidelines on [material.io](https://material.io/). The Roboto font is included in this repository.
 
-The chess pieces are from ([Wikipedia](https://en.wikipedia.org/wiki/Chess_piece)). Replace the png files with custom ones if you wish to customize the board.
+The chess pieces are from [wikipedia](https://en.wikipedia.org/wiki/Chess_piece). Replace the png files with custom ones if you wish to customize the board.
 
 ## Licence
 ```
