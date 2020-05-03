@@ -12,65 +12,80 @@
     <link rel="stylesheet" href="css/board.css"> 
 </head>
 <body>
-<div class="appbar">
-  <h6>Chesston</h6>
-</div>
-<div class="container">
-  <div class="content">
-    <div class="chessboard card"></div>
-    <div id="control-panel">
-      <div id="output">
-        <p id="game-dialog">Start a game!</p>
-      </div>
-      <form>
-        <div id="select-white">
-          <label class="dropdown-label" for="player-white">White</label>
-          <select class="inp-dropdown inp-dropdown-outline" id="player-white">
-            <option value="human">Human</option>
-            <option value="artifical">Machine</option>
-          </select>  
+  <!-- Page -->
+  <div class="appbar">
+    <h6>Chesston</h6>
+  </div>
+  <div class="container">
+    <div class="content">
+      <div class="chessboard card"></div>
+      <div id="control-panel">
+        <div id="output">
+          <p id="game-dialog">Start a game!</p>
         </div>
-        <div id="select-black">
-          <label class="dropdown-label" for="player-black">Black</label>
-          <select class="inp-dropdown inp-dropdown-outline" id="player-black">
-            <option value="human">Human</option>
-            <option value="artifical">Machine</option>
-          </select>     
+        <form>
+          <div id="select-white">
+            <label class="dropdown-label" for="player-white">White</label>
+            <input type="text" class="inp-text inp-text-outline" id="player-white" readonly>
+          </div>
+          <div id="select-black">
+            <label class="dropdown-label" for="player-black">Black</label>
+            <input type="text" class="inp-text inp-text-outline" id="player-black" readonly>    
+          </div>
+          <input class="btn btn-primary" type="submit" id="start-game" value="START GAME">
+        </form>
+      </div>
+    </div>  
+  </div>
+  <!-- Modal dialogs -->
+  <div id="promotion-dialog" class="modal">
+    <div class="modal-content">
+      <div class="modal-content-header">
+        <h6>Promotion</h6>
+      </div>
+      <div class="modal-content-body">
+        <div class="inp-radio">
+          <input type="radio" id="promo-Q" name="promotion" value="Q">
+          <label for="promo-Q">Queen</label>
         </div>
-        <input class="btn btn-primary" type="submit" id="start-game" value="START GAME">
-      </form>
-    </div>
-  </div>  
-</div>
-<div id="promotion-dialog" class="modal">
-  <div class="modal-content">
-    <div class="modal-content-header">
-      <h6>Promotion</h6>
-    </div>
-    <div class="modal-content-body">
-      <p>Your pawn recieves a promotion! Make a selection:</p>
-      <div class="inp-radio">
-        <input type="radio" id="promo-Q" name="promotion" value="Q">
-        <label for="promo-Q">Queen</label>
+        <div class="inp-radio">
+          <input type="radio" id="promo-B" name="promotion" value="B">
+          <label for="promo-B">Bishop</label>
+        </div>
+        <div class="inp-radio">
+          <input type="radio" id="promo-N" name="promotion" value="N">
+          <label for="promo-N">Knight</label>
+        </div>
+        <div class="inp-radio">
+          <input type="radio" id="promo-R" name="promotion" value="R">
+          <label for="promo-R">Rook</label>
+        </div>
       </div>
-      <div class="inp-radio">
-        <input type="radio" id="promo-B" name="promotion" value="B">
-        <label for="promo-B">Bishop</label>
+      <div class="modal-content-controls">
+        <button id="promotion-dialog-close" class="btn btn-text">PROMOTE</button>
       </div>
-      <div class="inp-radio">
-        <input type="radio" id="promo-N" name="promotion" value="N">
-        <label for="promo-N">Knight</label>
-      </div>
-      <div class="inp-radio">
-        <input type="radio" id="promo-R" name="promotion" value="R">
-        <label for="promo-R">Rook</label>
-      </div>
-    </div>
-    <div class="modal-content-controls">
-      <button id="promotion-dialog-close" class="btn btn-text">PROMOTE</button>
     </div>
   </div>
-</div>
+  <div id="player-dialog" class="modal">
+    <div class="modal-content">
+      <div class="modal-content-header">
+        <h6>Select a player</h6>
+      </div>
+      <div class="modal-content-body">
+        <div class="inp-radio">
+          <input type="radio" id="player-human" name="player" value="human">
+          <label for="player-human">Human</label>
+        </div>
+        <div class="inp-radio">
+          <input type="radio" id="player-machine" name="player" value="artifical">
+          <label for="player-machine">Machine</label>
+        </div>
+        <div class="modal-content-controls">
+          <button id="player-dialog-close" class="btn btn-text">SELECT</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <script src="modules/utils.js"></script>
 <script src="modules/chess.js"></script>
 <script src="modules/player.js"></script>

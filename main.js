@@ -1,20 +1,38 @@
 const board = new Chessboard();
 const playerFactory = new PlayerFactory(board);
 
+let playerWhite = {type: 'human', name: 'Human'};
+let playerBlack = {type: 'human', name: 'Human'};
+
+const playerWhiteSelect = document.querySelector('#player-white');
+const playerBlackSelect = document.querySelector('#player-black');
+
 window.addEventListener('load',() => {
     board.createBoard();
+
+    playerWhiteSelect.value = playerWhite.name;
+    playerBlackSelect.value = playerBlack.name;
+});
+
+playerWhiteSelect.addEventListener('click', async function(event){
+    const dialog = new DialogPlayer();
+    playerWhite = await dialog.show();
+    playerWhiteSelect.value = playerWhite.name;
+});
+
+playerBlackSelect.addEventListener('click', async function(event){
+    const dialog = new DialogPlayer();
+    playerBlack = await dialog.show();
+    playerBlackSelect.value = playerBlack.name;
 });
 
 const startButton = document.querySelector('#start-game');
 
 startButton.addEventListener('click', event => {
-    const selectionWhite = document.querySelector('#player-white').value;
-    const selectionBlack = document.querySelector('#player-black').value;
-
     board.removePlayer();
 
-    const player1 = playerFactory.createPlayer(selectionWhite,'w');
-    const player2 = playerFactory.createPlayer(selectionBlack,'b');
+    const player1 = playerFactory.createPlayer(playerWhite.type,'w');
+    const player2 = playerFactory.createPlayer(playerBlack.type,'b');
     
     board.init();
 

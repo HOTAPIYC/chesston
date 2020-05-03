@@ -50,13 +50,30 @@ class DialogPromotion extends Dialog{
 
     getResult(){
         if(document.querySelector('#promo-Q').checked){
-            return document.querySelector('#promo-Q').value;
+            return 'Q';
         } else if(document.querySelector('#promo-R').checked){
-            return document.querySelector('#promo-R').value;
+            return 'R';
         } else if(document.querySelector('#promo-B').checked){
-            return document.querySelector('#promo-B').value;
+            return 'B';
         } else if(document.querySelector('#promo-N').checked){
-            return document.querySelector('#promo-N').value;
+            return 'N';
+        }
+    }
+}
+
+class DialogPlayer extends Dialog{
+    constructor(){
+        super();
+
+        this.id = 'player-dialog';
+        document.querySelector('#player-human').checked = true;
+    }
+
+    getResult(){
+        if(document.querySelector('#player-human').checked){
+            return {type: 'human', name: 'Human'};
+        } else if(document.querySelector('#player-machine').checked){
+            return {type: 'artifical', name: 'Machine'};
         }
     }
 }

@@ -43,9 +43,10 @@ form #select-white label, form #select-black label {
     position: relative;
 }
 
-form #select-white select, form #select-black select {
+form #select-white input, form #select-black input {
     margin-top: -9px;
     width: 100%;
+    cursor: pointer;
 }
 
 form #select-black {
