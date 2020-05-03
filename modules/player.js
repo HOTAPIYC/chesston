@@ -45,7 +45,7 @@ class HumanPlayer {
     selectPiece(event) {
         if(event.target.className.search(new RegExp(`fen-.-${this.color}`)) > -1) {
             this.possibleMoves = new Map(); // Reset possible moves
-            this.possibleMoves.set(event.target.id, {move:'root', promotion: -1});
+            this.possibleMoves.set(event.target.id, {move:'root', promotion: false});
 
             const moves = this.board.getPossibleMoves(event.target.id);
 
@@ -81,6 +81,7 @@ class HumanPlayer {
     async selectTarget(event) {
         if(event.target.classList.contains('highlight')) {
             const selectedMove = this.possibleMoves.get(event.target.id);
+
             if(!selectedMove.promotion){
                 this.makeMove(this.board, selectedMove.move);
                 return false;

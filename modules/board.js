@@ -78,12 +78,12 @@ class Chessboard extends EventObserver {
     }
 
     checkBoardEvents() {
-        return {
-            gameover: this.chess.game_over(),
-            check: this.chess.in_check(),
-            checkmate: this.chess.in_checkmate(),
-            draw: this.chess.in_draw()
-        };
+        if(this.chess.in_check()){
+            this.emitEvent('check');
+        }
+        if(this.chess.in_checkmate()){
+            this.emitEvent('checkmate')
+        }
     }
 
     removePlayer() {
@@ -94,7 +94,8 @@ class Chessboard extends EventObserver {
         this.chess.move(selectedMove);
         this.resetHighlight();
         this.drawPieces();
-        this.emitEvent('next turn');     
+        this.emitEvent('next turn');
+        this.checkBoardEvents();
     }
 
     setHighlight(squares) {

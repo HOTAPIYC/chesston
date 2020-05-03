@@ -43,7 +43,6 @@ class Dialog{
 class DialogPromotion extends Dialog{
     constructor(){
         super();
-
         this.id = 'promotion-dialog';
         document.querySelector('#promo-Q').checked = true;
     }
@@ -62,11 +61,14 @@ class DialogPromotion extends Dialog{
 }
 
 class DialogPlayer extends Dialog{
-    constructor(){
+    constructor(currentSelect){
         super();
-
         this.id = 'player-dialog';
-        document.querySelector('#player-human').checked = true;
+        if(currentSelect.type === 'human'){
+            document.querySelector('#player-human').checked = true;
+        } else if(currentSelect.type === 'artifical'){
+            document.querySelector('#player-machine').checked = true;
+        }
     }
 
     getResult(){
@@ -75,5 +77,13 @@ class DialogPlayer extends Dialog{
         } else if(document.querySelector('#player-machine').checked){
             return {type: 'artifical', name: 'Machine'};
         }
+    }
+}
+
+class DialogInfo extends Dialog{
+    constructor(msg){
+        super();
+        this.id = 'info-dialog';
+        document.querySelector('#info-dialog-msg').textContent = msg;
     }
 }
