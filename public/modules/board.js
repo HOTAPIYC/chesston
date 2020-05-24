@@ -1,8 +1,8 @@
 class Chessboard extends EventObserver {
-  constructor(gameid,fen) {
+  constructor(id,fen) {
     super();
     this.chess = new Chess(fen);
-    this.board = document.getElementById(`${gameid}`).querySelector('.chessboard');
+    this.board = document.getElementById(`${id}`).querySelector('.chessboard');
     this.squares = new Map();
     this.possibleMoves = new Map();
   }

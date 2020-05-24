@@ -1,5 +1,5 @@
 class PlayerFactory {
-  setId(id){
+  constructor(id){
     this.id = id;
   }
 
@@ -20,7 +20,7 @@ class PlayerFactory {
   }
 }
 
-class OfflinePlayer {
+class HumanPlayer {
   constructor(game, color){    
     this.game = game;
         
@@ -28,8 +28,8 @@ class OfflinePlayer {
     this.currentColor = '';
     this.moveStarted = false;
 
-    this.game.board.addEventListener(`click ${this.color}`, event => this.onClick(event), 'player');
-    this.game.board.addEventListener('next turn', event => this.onNextTurn(event), 'player');
+    this.game.board.addEventListener(`click ${this.color}`, event => this.onClick(event));
+    this.game.board.addEventListener('next turn', event => this.onNextTurn(event));
   }
 
   onClick(event) {
@@ -105,7 +105,7 @@ class OfflinePlayer {
   }
 }
 
-class LocalPlayer extends OfflinePlayer {
+class LocalPlayer extends HumanPlayer {
   constructor(game, color){
     super(game, color);
   }
@@ -133,8 +133,8 @@ class RemotePlayer {
     this.color = color;
     this.currentColor = '';
 
-    this.game.board.addEventListener('init', event => this.onNextTurn(event), 'player');
-    this.game.board.addEventListener('next turn', event => this.onNextTurn(event), 'player');
+    this.game.board.addEventListener('init', event => this.onNextTurn(event));
+    this.game.board.addEventListener('next turn', event => this.onNextTurn(event));
   }
 
   onNextTurn(event){
@@ -150,13 +150,16 @@ class RemotePlayer {
 
   async getMove(game,color,makeMove){
     const response = await fetch(`/api/games/${game.id}/lastmove/${color}`);
-    const servergame = await response.json();
-    
-    if(servergame.lastMove !== game.lastMove){
-      makeMove(game, servergame.lastMove);
-    }
 
-    game.lastMove = servergame.lastMove;
+    if(response.status === 200){
+      const servergame = await response.json();
+    
+      if(servergame.lastMove !== game.lastMove){
+        makeMove(game, servergame.lastMove);
+      }
+  
+      game.lastMove = servergame.lastMove;
+    }
   }
 
   makeMove(game,selectedMove){
@@ -171,7 +174,7 @@ class ArtificalPlayer {
     this.color = color;
     this.currentColor = ''; 
     
-    this.game.board.addEventListener('next turn', event => this.onNextTurn(event), 'player');
+    this.game.board.addEventListener('next turn', event => this.onNextTurn(event));
   }
 
   onNextTurn(event) {

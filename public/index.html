@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Login view -->
   <div class="login">
     <h1>Chesston</h1>
     <div class="login-img"></div>
@@ -16,10 +17,12 @@
       <input class="btn btn-outline" type="submit" id="register" value="LOGIN">
     </form>
   </div>
+  <!-- Main view -->
   <div class="dashboard">
     <nav>
       <div class="sidebar-btn"></div>
       <h1>Chesston</h1>
+      <p id="display-name"></p>
     </nav>
     <div class="sidebar-container">
       <div class="sidebar">
@@ -31,7 +34,35 @@
     </div>
     <div class="content"></div>
   </div>
-  <script src="modules/ui.js"></script>
+  <!-- Modal dialog 1 -->
+  <div id="promotion-dialog" class="modal">
+    <div class="modal-content">
+      <div class="modal-content-header">
+        <h4>Promotion</h4>
+      </div>
+      <div class="modal-content-body">
+        <div class="inp-radio">
+          <input type="radio" id="promo-Q" name="promotion" value="Q">
+          <label for="promo-Q">Queen</label>
+        </div>
+        <div class="inp-radio">
+          <input type="radio" id="promo-B" name="promotion" value="B">
+          <label for="promo-B">Bishop</label>
+        </div>
+        <div class="inp-radio">
+          <input type="radio" id="promo-N" name="promotion" value="N">
+          <label for="promo-N">Knight</label>
+        </div>
+        <div class="inp-radio">
+          <input type="radio" id="promo-R" name="promotion" value="R">
+          <label for="promo-R">Rook</label>
+        </div>
+      </div>
+      <div class="modal-content-controls">
+        <button id="promotion-dialog-close" class="btn btn-modal">PROMOTE</button>
+      </div>
+    </div>
+  </div>
   <script src="modules/utils.js"></script>
   <script src="modules/player.js"></script>
   <script src="modules/chess.js"></script>
