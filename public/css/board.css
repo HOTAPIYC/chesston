@@ -1,21 +1,19 @@
+.chessboard{
+  max-width: 400px;
+}
 /* Squares */
-
 .light {
     background-color: #ffce9e;
 }
-
 .light.highlight {
     background-color: #00FF00;
 }
-
 .dark {
     background-color: #d18b47;
 }
-
 .dark.highlight {
     background-color: #00E500;
 }
-
 .square {
     width: 50px;
     height: 0;
@@ -23,57 +21,43 @@
     background-position: center;
     background-size: contain;
 }
-
 .row {
     display: flex;
 }
-
 /* Pieces */
-
 .fen-b-w{
     background-image: url("../img/bishop_white.png");
 }
-
 .fen-b-b{
     background-image: url("../img/bishop_black.png");
 }
-
 .fen-k-w{
     background-image: url("../img/king_white.png");
 }
-
 .fen-k-b{
     background-image: url("../img/king_black.png");
 }
-
 .fen-n-w{
     background-image: url("../img/knight_white.png");
 }
-
 .fen-n-b{
     background-image: url("../img/knight_black.png");
 }
-
 .fen-p-w{
     background-image: url("../img/pawn_white.png");
 }
-
 .fen-p-b{
     background-image: url("../img/pawn_black.png");
 }
-
 .fen-q-w{
     background-image: url("../img/queen_white.png");
 }
-
 .fen-q-b{
     background-image: url("../img/queen_black.png");
 }
-
 .fen-r-w{
     background-image: url("../img/rook_white.png");
 }
-
 .fen-r-b{
     background-image: url("../img/rook_black.png");
 }

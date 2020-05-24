@@ -1,0 +1,30 @@
+{
+  "name": "chesston",
+  "version": "0.0.1",
+  "description": "Userinterface to chess.js",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "scripts": {
+    "start": "node server/main.js",
+    "dev": "nodemon server/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HOTAPIYC/Chesston.git"
+  },
+  "keywords": [
+    "chess"
+  ],
+  "author": "Andreas Seutemann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HOTAPIYC/Chesston/issues"
+  },
+  "homepage": "https://github.com/HOTAPIYC/Chesston#readme"
+}
