@@ -12,6 +12,24 @@ html,body{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #8A2BE2;
+}
+.login > h1{
+  font-weight: lighter;
+  color: #FFF;
+  margin-bottom: 1rem;
+}
+.login > .login-img{
+  background-image: url("../img/queen_white.png");
+  background-position: center;
+  background-size: contain;
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1.8rem;
+}
+.login > form > #register{
+  display: block;
+  width: 100%;
 }
 .dashboard{
   display: none;
@@ -145,8 +163,6 @@ nav > .sidebar-btn{
   padding-left: 1rem;
   padding-right: 1rem;
   letter-spacing: 0.09em;
-  font-size: 0.6rem;
-  font-weight: bolder;
   cursor: pointer;
 }
 .btn:hover,
@@ -158,11 +174,35 @@ nav > .sidebar-btn{
   padding-left: 0.5rem;
   padding-right: 0.5rem;
   color: #FFF;
+  font-size: 0.6rem;
+  font-weight: bolder;
   background-color: #FFFFFF22;
 }
-.btn-text:hover{
+.btn-outline{
+  color: #FFF;
+  background-color: transparent;
+  border: 1px solid #FFF;
+  border-radius: 0;
+}
+.btn-text:hover,
+.btn-outline:hover{
   background-color: #00000044
 }
-.btn-text:active{
+.btn-text:active,
+.btn-outline:active{
   background-color: #FFFFFF44;
+}
+/* Input */
+.inp-text {
+  border: none;
+  border-radius: 0;
+  height: 2.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  min-width: 8rem; 
+}
+.inp-text:hover,
+.inp-text:focus,
+.inp-text:active {
+  outline: none;
 }
