@@ -7,19 +7,24 @@ html,body{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .login{
-  display: flex;
   height: 100vh;
+  background-color: #8A2BE2;
+}
+.login .container{
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #8A2BE2;
+  width: 12rem;
+  height: 100%;
+  margin: auto;
 }
-.login > h1{
+.login .container h1{
   font-weight: lighter;
   color: #FFF;
   margin-bottom: 1rem;
 }
-.login > .login-img{
+.login .container .login-img{
   background-image: url("../img/queen_white.png");
   background-position: center;
   background-size: contain;
@@ -27,8 +32,22 @@ html,body{
   height: 4rem;
   margin-bottom: 1.8rem;
 }
-.login > form > #register{
+.login .container form{
+  width: 100%;
+}
+.login .container form #name{
+  width: 100%;
+}
+.login .container form #register{
   display: block;
+  width: 100%;
+}
+.login .container p{
+  margin-top: 1rem;
+  color: #FFF;
+}
+.login .container #offline{
+  margin-top: 1rem;
   width: 100%;
 }
 .dashboard{
@@ -206,7 +225,6 @@ nav > .sidebar-btn{
   height: 2.25rem;
   padding-left: 0.5rem;
   padding-right: 0.5rem;
-  min-width: 8rem; 
 }
 .inp-text:hover,
 .inp-text:focus,
