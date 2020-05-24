@@ -113,6 +113,25 @@ document.querySelector('#ul-requests').addEventListener('click', async function(
   event.target.parentElement.remove();
 });
 
+document.querySelector('#offline').addEventListener('click', function(event){
+  event.preventDefault();
+
+  document.querySelector('.login').style.display = 'none';
+  document.querySelector('.dashboard').style.display = 'grid';
+
+  const game = new Game({
+    id: 'localgame', 
+    white: {id: '', name: 'White'}, 
+    black: {id: '', name: 'Black'},
+    lastMove: ''
+  });
+
+  game.createBoard();
+  game.start(id);
+
+  localgames.push(game);
+});
+
 function createPlayerItem(player){
   let li = document.createElement('li');
   li.id = player.id;

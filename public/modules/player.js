@@ -7,14 +7,18 @@ class PlayerFactory {
     if(color === 'w'){
       if(game.white.id === this.id){
         return new LocalPlayer(game, color);
-      } else {
+      } else if(game.white.id !== '') {
         return new RemotePlayer(game, color);
+      } else {
+        return new HumanPlayer(game, color);
       }
     } else {
       if(game.black.id === this.id){
         return new LocalPlayer(game, color);
-      } else {
+      } else if(game.black.id !== ''){
         return new RemotePlayer(game, color);
+      } else {
+        return new HumanPlayer(game, color);
       }
     }
   }
