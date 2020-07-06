@@ -51,11 +51,19 @@ html,body{
   width: 100%;
 }
 .dashboard{
-  display: none;
+  display: grid;
   grid-template-rows: 4rem auto;
   grid-template-columns: 300px auto;
   grid-template-areas: "header header"
-                         "sidebar content";
+                       "sidebar chessboards";
+  width: 100vw;
+  height: 100vh;
+}
+.singleboard{
+  display: grid;
+  grid-template-rows: 4rem auto;
+  grid-template-areas: "header"
+                       "chessboards";
   width: 100vw;
   height: 100vh;
 }
@@ -90,7 +98,7 @@ nav > .sidebar-btn{
   background-color: #8A2BE2;
 }
 .content{
-  grid-area: content;
+  grid-area: chessboards;
   overflow-y: scroll;
   padding-top: 0.5rem;
 }

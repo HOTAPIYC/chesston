@@ -8,10 +8,20 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div>
+  <div class="dashboard">
     <nav>
+      <div class="sidebar-btn"></div>
       <h1>Chesston</h1>
+      <p id="display-name"></p>
     </nav>
+    <div class="sidebar-container">
+      <div class="sidebar">
+        <div class="sidebar-section">Player online</div>
+        <ul id="ul-player"></ul>
+        <div class="sidebar-section">Pending requests</div>
+        <ul id="ul-requests"></ul>
+      </div>
+    </div>
     <div class="content"></div>
   </div>
   <!-- Modal dialog 1 -->
@@ -47,6 +57,6 @@
   <script src="modules/player.js"></script>
   <script src="modules/chess.js"></script>
   <script src="modules/board.js"></script>
-  <script src="localgame.js"></script>
+  <script src="servergame.js"></script>
 </body>
 </html>
