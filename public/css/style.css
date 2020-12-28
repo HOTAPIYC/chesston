@@ -6,50 +6,93 @@
 html,body{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-.login{
-  height: 100vh;
-  background-color: #8A2BE2;
-}
-.login .container{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 12rem;
-  height: 100%;
+/* Login */
+.container {
+  max-width: 800px;
   margin: auto;
+  padding: 0.5rem;
+  margin-top: 2rem;
 }
-.login .container h1{
-  font-weight: lighter;
-  color: #FFF;
+.selection {
+  display: grid;
+  grid-template-columns: [left-edge] 50% [center-line] 50% [right-edge];
+  grid-template-rows: [top-edge] auto [content-start] auto [bottom-edge];
+}
+.tabs {
+  grid-column: left-edge / right-edge;
+  grid-row: top-edge / content-start;
+  display: none;
+}
+.tab {
+  padding: 0.5rem;
+  background-color: beige;
+  display: inline-block;
+}
+.login, .register{
+  grid-row: content-start / bottom-edge;
+  background-color: beige;
+  height: 400px;
+}
+.login {
+  grid-column: left-edge / center-line;
+}
+.register {
+  grid-column: center-line / right-edge;
+}
+.selection > input {
+  display: none;
+}
+@media (max-width: 800px) {
+  .tabs {
+    display: block;
+  }
+  .register {
+    grid-column-start: left-edge;
+    display: none;
+  }
+  .login {
+    grid-column-end: right-edge;
+    display: none;
+  }
+  #tab1:checked ~ .login,
+  #tab2:checked ~ .register {
+    display: block;
+  }
+  #tab1:checked ~ .tabs > .register-tab {
+    background-color: #CCC;
+  }
+  #tab2:checked ~ .tabs > .login-tab {
+    background-color: #CCC;
+  }
+}
+.input-container {
+  padding: 2rem;
+}
+.input-container p {
   margin-bottom: 1rem;
 }
-.login .container .login-img{
-  background-image: url("../img/queen_white.png");
-  background-position: center;
-  background-size: contain;
-  width: 4rem;
-  height: 4rem;
-  margin-bottom: 1.8rem;
-}
-.login .container form{
+form input[type=text], 
+form input[type=password] {
   width: 100%;
+  margin-bottom: 1rem;
+  margin-top: 0.3rem;
+  padding: 3px;
 }
-.login .container form #name{
-  width: 100%;
-}
-.login .container form #register{
-  display: block;
-  width: 100%;
-}
-.login .container p{
+form input[type=submit] {
+  width: 150px;
   margin-top: 1rem;
-  color: #FFF;
+  padding: 5px;
 }
-.login .container #offline{
+.footnote{
   margin-top: 1rem;
-  width: 100%;
+  text-align: center;
 }
+.footnote > a{
+  text-decoration: underline;
+  color: #6e22b4;
+  cursor:pointer;
+}
+/* Main application window */
 .dashboard{
   display: grid;
   grid-template-rows: 4rem auto;

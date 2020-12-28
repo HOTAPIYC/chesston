@@ -9,16 +9,44 @@ let games = [];
 
 router.get('/player', (req,res) => res.json(players));
 
-router.post('/player', (req,res) => {
+router.post('/player/new', (req,res) => {
   const player = {
     id: uuidv4(),
     name: req.body.name,
+    password: req.body.password,
+    status: "online"
   };
 
+  const playerExists = players.some((item) => {
+    return item.name === player.name;
+  });
+
   if (!player.name) {
-    res.status(400).json({ msg: 'Please provide a name' });
+    res.status(400).json({ msg: "Please provide a name." });
+  } else if(playerExists) {
+    res.status(400).json({ msg: "Name is already taken." });
   } else {
     players.push(player);
+    res.json(player);
+  }
+});
+
+router.post("/player/login", (req,res) => {
+  const player = players.filter((player) => {
+     return player.name === req.body.name;
+  })[0];
+
+  if(req.body.name){
+    res.status(400).json({ msg: "Please provide a name." });
+  } else if(player === undefined){
+    res.status(400).json({ msg: "Player unkown." });
+  } else if(player.password != req.body.password){
+    res.status(400).json({ msg: "Password incorrect." });
+  } else {
+    // Remove password before sending object
+    delete player.password;
+    // TODO: Update playerstatus to online in array
+    // and display on front end.
     res.json(player);
   }
 });
