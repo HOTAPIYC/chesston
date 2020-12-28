@@ -26,5 +26,6 @@
   "bugs": {
     "url": "https://github.com/HOTAPIYC/Chesston/issues"
   },
-  "homepage": "https://github.com/HOTAPIYC/Chesston#readme"
+  "homepage": "https://github.com/HOTAPIYC/Chesston#readme",
+  "type": "module"
 }

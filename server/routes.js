@@ -1,15 +1,15 @@
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
+import express from "express";
+import { v4 as uuidv4 } from "uuid";
 
-const router = express.Router();
+const router = express();
 
 let players = [];
 let requests = [];
 let games = [];
 
-router.get('/player', (req,res) => res.json(players));
+router.get("/player", (req,res) => res.json(players));
 
-router.post('/player/new', (req,res) => {
+router.post("/player/new", (req,res) => {
   const player = {
     id: uuidv4(),
     name: req.body.name,
@@ -51,7 +51,7 @@ router.post("/player/login", (req,res) => {
   }
 });
 
-router.get('/requests/:id', (req,res) => {
+router.get("/requests/:id", (req,res) => {
   const filtered = requests.filter(request => {
     if(request.to.id === req.params.id){
       return request;
@@ -60,7 +60,7 @@ router.get('/requests/:id', (req,res) => {
   res.json(filtered);
 });
 
-router.post('/requests', (req,res) => {
+router.post("/requests", (req,res) => {
   const request = {
     id: uuidv4(),
     from: req.body.from,
@@ -68,31 +68,31 @@ router.post('/requests', (req,res) => {
   };
 
   requests.push(request);
-  res.json({ msg: 'Request placed'});  
+  res.json({ msg: "Request placed"});  
 });
 
 router.put('/requests/decline', (req,res) => {
   requests = requests.filter(request => request.id !== req.body.id);
-  res.json({ msg: 'Request removed'});
+  res.json({ msg: "Request removed"});
 });
 
-router.put('/requests/accept', (req,res) => {
+router.put("/requests/accept", (req,res) => {
   const request = requests.find(request => request.id === req.body.id);
   const game = {
     id: uuidv4(),
     white: request.to,
     black: request.from,
-    fen: '',
-    lastMove: ''
+    fen: "",
+    lastMove: ""
   };
 
   games.push(game);
 
   requests = requests.filter(request => request.id !== req.body.id);
-  res.json({ msg: 'Game created'});
+  res.json({ msg: "Game created"});
 });
 
-router.get('/games/:id', (req,res) => {
+router.get("/games/:id", (req,res) => {
   const filtered = games.filter(game => {
     if(game.white.id === req.params.id || game.black.id === req.params.id){
       return game;
@@ -101,15 +101,15 @@ router.get('/games/:id', (req,res) => {
   res.json(filtered);
 });
 
-router.put('/games/:id/newmove', (req,res) => {
+router.put("/games/:id/newmove", (req,res) => {
   const index = games.indexOf(games.find(game => game.id === req.params.id));
   games[index].lastMove = req.body.move;
   res.json({ msg: 'Move placed' });
 });
 
-router.get('/games/:id/lastmove/:color', (req,res) => {
+router.get("/games/:id/lastmove/:color", (req,res) => {
   const game = games.find(game => game.id === req.params.id);
   res.json({ lastMove: game.lastMove });
 });
 
-module.exports = router;
+export { router }
