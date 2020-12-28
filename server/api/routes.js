@@ -13,9 +13,7 @@ router.get("/player", (req,res) => {
 router.post("/player/new", (req,res) => {
   createPlayer(req.body.name, req.body.password)
   .then((result) => res.status(200).json(result))
-  .catch((error) => {
-    console.log(error);
-    res.status(400).json(error);});
+  .catch((error) => res.status(400).json(error));
 });
 
 router.post("/player/login", (req,res) => {
