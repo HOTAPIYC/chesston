@@ -1,54 +1,27 @@
 import express from "express";
-import { v4 as uuidv4 } from "uuid";
+import { createPlayer, getPlayer, getAllPlayers } from "../services/player.js";
 
 const router = express();
 
-let players = [];
 let requests = [];
 let games = [];
 
-router.get("/player", (req,res) => res.json(players));
+router.get("/player", (req,res) => {
+  res.json(getAllPlayers())
+});
 
 router.post("/player/new", (req,res) => {
-  const player = {
-    id: uuidv4(),
-    name: req.body.name,
-    password: req.body.password,
-    status: "online"
-  };
-
-  const playerExists = players.some((item) => {
-    return item.name === player.name;
-  });
-
-  if (!player.name) {
-    res.status(400).json({ msg: "Please provide a name." });
-  } else if(playerExists) {
-    res.status(400).json({ msg: "Name is already taken." });
-  } else {
-    players.push(player);
-    res.json(player);
-  }
+  createPlayer(req.body.name, req.body.password)
+  .then((result) => res.status(200).json(result))
+  .catch((error) => {
+    console.log(error);
+    res.status(400).json(error);});
 });
 
 router.post("/player/login", (req,res) => {
-  const player = players.filter((player) => {
-     return player.name === req.body.name;
-  })[0];
-
-  if(req.body.name){
-    res.status(400).json({ msg: "Please provide a name." });
-  } else if(player === undefined){
-    res.status(400).json({ msg: "Player unkown." });
-  } else if(player.password != req.body.password){
-    res.status(400).json({ msg: "Password incorrect." });
-  } else {
-    // Remove password before sending object
-    delete player.password;
-    // TODO: Update playerstatus to online in array
-    // and display on front end.
-    res.json(player);
-  }
+  getPlayer(req.body.name, req.body.password)
+  .then((result) => res.status(200).json(result))
+  .catch((error) => res.status(400).json(error));
 });
 
 router.get("/requests/:id", (req,res) => {
