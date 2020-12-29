@@ -1,6 +1,7 @@
 class Chessboard extends EventObserver {
   constructor(id,fen) {
     super();
+    this.gameId = id;
     this.chess = new Chess(fen);
     this.board = document.getElementById(`${id}`).querySelector('.chessboard');
     this.squares = new Map();
@@ -34,7 +35,9 @@ class Chessboard extends EventObserver {
 
     // Forward clicks to the currently active player
     document.addEventListener('click', event => {
-      if(event.target.classList.contains('square')) {
+      console.log(event.target.parentElement.parentElement.parentElement.id);
+      if(event.target.classList.contains('square')
+      && event.target.parentElement.parentElement.parentElement.id === this.gameId) {
         this.emitEvent(`click ${this.getColor()}`, event);
       } else {
         this.resetHighlight();

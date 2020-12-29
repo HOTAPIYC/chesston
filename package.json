@@ -11,12 +11,12 @@
     "nodemon": "^2.0.4"
   },
   "scripts": {
-    "start": "node server/main.js",
-    "dev": "nodemon server/main.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HOTAPIYC/Chesston.git"
+    "url": "git+https://github.com/HOTAPIYC/chesston.git"
   },
   "keywords": [
     "chess"
@@ -24,8 +24,8 @@
   "author": "Andreas Seutemann",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/HOTAPIYC/Chesston/issues"
+    "url": "https://github.com/HOTAPIYC/chesston/issues"
   },
-  "homepage": "https://github.com/HOTAPIYC/Chesston#readme",
+  "homepage": "https://github.com/HOTAPIYC/chesston#readme",
   "type": "module"
 }

@@ -1,6 +1,6 @@
 import express from "express";
-import * as playerController from "../services/player.js";
-import * as gameController from "../services/games.js";
+import * as playerController from "../controller/player.js";
+import * as gameController from "../controller/games.js";
 
 const router = express();
 
