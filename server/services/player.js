@@ -50,7 +50,7 @@ function getPlayer(name, password) {
     } else if (player.password != password) {
       reject({msg: "Password incorrect!"});
     } else {
-      // Remove password before returning object
+      // Remove password before returning object.
       delete player.password;
       // TODO: Update playerstatus to "online" in array
       // and do something with it on the front end.

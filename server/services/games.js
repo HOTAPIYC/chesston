@@ -9,11 +9,11 @@ function createRequest(from, to) {
     from: from,
     to: to
   };
-
   requests.push(request);
 }
 
 function declineRequest(id) {
+  // Remove request and replace array.
   requests = requests.filter(request => request.id !== id);
 }
 
@@ -26,9 +26,8 @@ function acceptRequest(id) {
     fen: "",
     lastMove: ""
   };
-
   games.push(game);
-
+  // Remove request and replace array.
   requests = requests.filter(request => request.id !== id);
 }
 
