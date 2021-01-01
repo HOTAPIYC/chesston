@@ -4,8 +4,8 @@ import * as gameController from "../controller/games.js";
 
 const router = express();
 
-router.get("/player", (req,res) => {
-  res.json(playerController.getAllPlayers())
+router.get("/player/:id", (req,res) => {
+  res.json(playerController.getAllPlayers(req.params.id))
 });
 
 router.post("/player/new", (req,res) => {

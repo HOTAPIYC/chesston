@@ -1,4 +1,19 @@
 import { v4 as uuidv4 } from "uuid";
+import chesspkg from "chess.js";
+
+const { Chess } = chesspkg;
+
+// Board map
+const squareNames = [
+  ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"],
+  ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"],
+  ["a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"],
+  ["a5", "b5", "c5", "d5", "e5", "f5", "g5", "h5"],
+  ["a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4"],
+  ["a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3"],
+  ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"],
+  ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"]
+];
 
 let requests = [];
 let games = [];
@@ -19,12 +34,19 @@ function declineRequest(id) {
 
 function acceptRequest(id) {
   const request = requests.find(request => request.id === id);
+  const chess = Chess();
+
+  const currentFen = chess.fen();
+  const possibleMoves = getPossibleMovesPerSquare(chess);
+  const currentTurn = request.to.id;
+
   const game = {
     id: uuidv4(),
     white: request.to,
     black: request.from,
-    fen: "",
-    lastMove: ""
+    fen: currentFen,
+    currentTurn: currentTurn,
+    possibleMoves: possibleMoves
   };
   games.push(game);
   // Remove request and replace array.
@@ -49,12 +71,39 @@ function getGameByPlayerId(id) {
 
 function addMoveToGame(id, move) {
   const index = games.indexOf(games.find(game => game.id === id));
-  games[index].lastMove = move;
+
+  const chess = Chess(games[index].fen);
+
+  chess.move(move);
+
+  const currentFen = chess.fen();
+  const possibleMoves = getPossibleMovesPerSquare(chess);
+
+  if(chess.turn() === "w"){
+    var currentTurn = games[index].white.id;
+  }
+  if(chess.turn() === "b"){
+    var currentTurn = games[index].black.id;
+  }
+
+  games[index].fen = currentFen;
+  games[index].currentTurn = currentTurn;
+  games[index].possibleMoves = possibleMoves;
 }
 
 function getLastMoveByPlayerId(id) {
   const game = games.find(game => game.id === id);
   return { lastMove: game.lastMove };
+}
+
+function getPossibleMovesPerSquare(chess) {
+  const moves = {};
+  squareNames.forEach((row) => {
+    row.forEach((square) => {
+      moves[square] = chess.moves({ square: square });
+    });
+  });
+  return moves;
 }
 
 export { createRequest, declineRequest, acceptRequest, getRequestsByPlayerId, getGameByPlayerId, addMoveToGame, getLastMoveByPlayerId };

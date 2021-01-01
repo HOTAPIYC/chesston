@@ -28,9 +28,9 @@ function createPlayer(name, password) {
   });
 }
 
-function getAllPlayers() {
+function getAllPlayers(id) {
   // Remove passwords for security reasons.
-  return players.map(({password, ...player}) => player );
+  return players.map(({password, ...player}) => player ).filter((player) => player.id != id);
 }
 
 function getPlayer(name, password) {
