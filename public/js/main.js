@@ -1,3 +1,5 @@
+const socket = io();
+
 // Board map
 const squareNames = [
   ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"],
@@ -13,20 +15,6 @@ const squareNames = [
 let gameOnDisplay;
 const move = Move();
 
-const localGames = DataArray();
-const localRequests = DataArray();
-const localPlayers = DataArray();
-
-const playerList = ObservableList();
-playerList.setListId("#ul-player");
-playerList.registerUI(createPlayerItem);
-const requestList = ObservableList();
-requestList.setListId("#ul-requests");
-requestList.registerUI(createRequestItem);
-const gamesList = ObservableList();
-gamesList.setListId("#ul-games");
-gamesList.registerUI(createGameItem);
-
 const player = JSON.parse(localStorage.getItem("player"));
 
 const name = player.name;
@@ -34,38 +22,25 @@ const id = player.id;
 
 document.querySelector("#display-name").textContent = name;
 
-// Background activity
-setInterval(getPlayers, 2000, localPlayers, playerList);
-setInterval(getRequests, 2000, localRequests, requestList);
-setInterval(getGames, 2000, localGames, gamesList);
-
-async function getPlayers(localPlayers, playerList){
+async function getPlayers(){
   const response = await fetch(`/api/player/${id}`);
 
   if(response.status === 200){
     const players = await response.json();  
-    localPlayers.setItems(players);
-    playerList.observe(localPlayers.getItems());
+    players.forEach((player) => {
+      document.querySelector("#ul-player").appendChild(createPlayerItem(player));
+    });
   }
 }
 
-async function getRequests(localRequests, requestList){
-  const response = await fetch(`/api/requests/${id}`);
-
-  if(response.status === 200){
-    const requests = await response.json();
-    localRequests.setItems(requests);
-    requestList.observe(localRequests.getItems());
-  }
-}
-
-async function getGames(localGames, gamesList){
+async function getGames(){
   const response = await fetch(`/api/games/${id}`);
 
   if(response.status === 200){
     const games = await response.json();
-    localGames.setItems(games);
-    gamesList.observe(localGames.getItems());
+    games.forEach((game) => {
+      document.querySelector("#ul-games").appendChild(createGameItem(player));
+    });
   }
 }
 
@@ -110,7 +85,7 @@ document.querySelector("#ul-games").addEventListener("click", function (event) {
 
 document.addEventListener('click', async function (event) {
   if(event.target.classList.contains('square')) {
-      if(gameOnDisplay.currentTurn === id){
+      if(gameOnDisplay != undefined && gameOnDisplay.currentTurn === id){
         const squaresToHighlight = gameOnDisplay.possibleMoves[event.target.id];
         if(squaresToHighlight.length != 0){
           move.startMove(event.target.id);
@@ -118,11 +93,7 @@ document.addEventListener('click', async function (event) {
         } else {
           if(event.target.classList.contains('highlight')){
             const selectedMove = move.makeMove(event.target.id)
-            const response = await fetch(`/api/games/${gameOnDisplay.id}/newmove`, {
-              method: 'PUT',
-              body: JSON.stringify({move: selectedMove}),
-              headers: {'Content-type': 'application/json; charset=UTF-8'}
-            });
+            socket.emit("move", {id: gameOnDisplay.id, move: selectedMove});
           } else {
             move.abortMove();
           }
@@ -133,6 +104,14 @@ document.addEventListener('click', async function (event) {
   } else {
       resetHighlight(squareNames);
       moveStarted = false;
+  }
+});
+
+socket.on("gameupdate", (data) => {
+  if(data.game.id === gameOnDisplay.id){
+    removePieces(squareNames);
+    gameOnDisplay = data.game;
+    drawPieces(gameOnDisplay.fen, squareNames);
   }
 });
 
@@ -195,101 +174,6 @@ function createRequestItem(request){
   li.appendChild(btnAccept);
   
   return li;
-}
-
-// List control
-function ObservableList () {
-  let _id = "ul";
-  let _list = [];
-  let _ui = {};
-  const observe = function (array) {
-    // check for users missing in the list
-    array.forEach((arrayItem) => {
-      if(_list.find((listItem) => listItem.id === arrayItem.id) === undefined){
-        _list.push(arrayItem);
-        _createUI(arrayItem);
-        console.log("Found new user and updated list")
-      }
-    });
-    // check for list items not anymore in the user array
-    _list.forEach((listItem) => {
-      if(array.find((arrayItem) => listItem.id === arrayItem.id) === undefined){
-        _list = _list.filter((item) => item.id != listItem.id);
-        _removeUI(listItem);
-        console.log("Removed list item for non existent user");
-      };
-    });
-  };
-  const registerUI = function(ui){
-    _ui = ui
-  };
-  const setListId = function(id){
-    _id = id;
-  }
-  const _createUI = function (listItem){
-    document.querySelector(_id).appendChild(_ui(listItem));
-  };
-  const _removeUI = function(listItem) {
-    document.getElementById(`${listItem.id}`).remove();
-  };
-  return Object.freeze({
-    observe: observe,
-    registerUI: registerUI,
-    setListId: setListId
-  });
-}
-
-function DataArray () {
-  let _items = [];
-  const getItems = function () {
-    return _items;
-  };
-  const setItems = function (items) {
-    _items = items;
-  }
-  const addItem = function (item) {
-    _items.push(item);
-  };
-  const removeItem = function (id) {
-    _items = _items.filter((element) => element.id != id);
-  };
-  const getItem = function (id) {
-    return _items.find((item) => item.id === id);
-  };
-  return Object.freeze({
-    getItems: getItems,
-    setItems: setItems,
-    addItem: addItem,
-    getItem: getItem,
-    removeItem: removeItem
-  });
-}
-
-function Move () {
-  let _moveInProgress;
-  let _possibleMoves;
-
-  const startMove = function (startSquare) {
-    console.log("Start move");
-    _possibleMoves = gameOnDisplay.possibleMoves[startSquare];
-    _moveInProgress = true;
-  };
-  const makeMove = function (target) {
-    // TODO: Analyse for promotion and casteling
-    console.log("Make move");
-    _moveInProgress = false;
-    return _possibleMoves.filter((move) => move.slice(-2) === target)[0];
-  };
-  const abortMove = function () {
-    console.log("Abort move");
-    _possibleMoves = [];
-    _moveInProgress = false;
-  };
-  return Object.freeze({
-    startMove: startMove,
-    makeMove: makeMove,
-    abortMove: abortMove
-  });
 }
 
 // Sidebar control
@@ -360,6 +244,29 @@ function resetHighlight(squaresNames){
       const square = document.getElementById(squareName);
       square.classList.remove('highlight');
     });
+  });
+}
+
+function Move () {
+  let _possibleMoves;
+
+  const startMove = function (startSquare) {
+    console.log("Start move");
+    _possibleMoves = gameOnDisplay.possibleMoves[startSquare];
+  };
+  const makeMove = function (target) {
+    // TODO: Analyse for promotion and casteling
+    console.log("Make move");
+    return _possibleMoves.filter((move) => move.slice(-2) === target)[0];
+  };
+  const abortMove = function () {
+    console.log("Abort move");
+    _possibleMoves = [];
+  };
+  return Object.freeze({
+    startMove: startMove,
+    makeMove: makeMove,
+    abortMove: abortMove
   });
 }
 

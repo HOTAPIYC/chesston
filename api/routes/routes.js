@@ -2,8 +2,18 @@ const express = require("express");
 const playerController = require("../controller/player");
 const gameController = require("../controller/games");
 
-
 const router = express.Router();
+
+function initWebsocket(socket){
+  socket.on("connection", (socket) => {
+    console.log("Client connected.");
+
+    socket.on("move", (move) => {
+      gameController.addMoveToGame(move.id, move.move);
+      socket.emit("gameupdate", gameController.getGameById(move.id));
+    });
+  });  
+}
 
 router.get("/player/:id", (req,res) => {
   res.json(playerController.getAllPlayers(req.params.id))
@@ -54,3 +64,4 @@ router.get("/games/:id/lastmove/:color", (req,res) => {
 });
 
 exports.router = router;
+exports.initWebsocket = initWebsocket;

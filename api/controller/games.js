@@ -1,4 +1,4 @@
-const { uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 const { Chess } = require("chess.js");
 
 
@@ -105,6 +105,11 @@ function getPossibleMovesPerSquare(chess) {
   return moves;
 }
 
+function getGameById(id){
+  const game = games.find(game => game.id === id);
+  return game;
+}
+
 exports.createRequest = createRequest;
 exports.declineRequest = declineRequest;
 exports.acceptRequest = acceptRequest;
@@ -112,3 +117,4 @@ exports.getRequestsByPlayerId = getRequestsByPlayerId;
 exports.getGameByPlayerId = getGameByPlayerId;
 exports.addMoveToGame = addMoveToGame;
 exports.getLastMoveByPlayerId = getLastMoveByPlayerId;
+exports.getGameById = getGameById;
