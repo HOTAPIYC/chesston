@@ -1,8 +1,9 @@
-import express from "express";
-import * as playerController from "../controller/player.js";
-import * as gameController from "../controller/games.js";
+const express = require("express");
+const playerController = require("../controller/player");
+const gameController = require("../controller/games");
 
-const router = express();
+
+const router = express.Router();
 
 router.get("/player/:id", (req,res) => {
   res.json(playerController.getAllPlayers(req.params.id))
@@ -52,4 +53,4 @@ router.get("/games/:id/lastmove/:color", (req,res) => {
   res.json(gameController.getLastMoveByPlayerId(req.params.id));
 });
 
-export { router }
+exports.router = router;

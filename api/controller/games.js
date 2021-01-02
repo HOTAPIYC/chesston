@@ -1,7 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
-import chesspkg from "chess.js";
+const { uuidv4 } = require("uuid");
+const { Chess } = require("chess.js");
 
-const { Chess } = chesspkg;
 
 // Board map
 const squareNames = [
@@ -106,4 +105,10 @@ function getPossibleMovesPerSquare(chess) {
   return moves;
 }
 
-export { createRequest, declineRequest, acceptRequest, getRequestsByPlayerId, getGameByPlayerId, addMoveToGame, getLastMoveByPlayerId };
+exports.createRequest = createRequest;
+exports.declineRequest = declineRequest;
+exports.acceptRequest = acceptRequest;
+exports.getRequestsByPlayerId = getRequestsByPlayerId;
+exports.getGameByPlayerId = getGameByPlayerId;
+exports.addMoveToGame = addMoveToGame;
+exports.getLastMoveByPlayerId = getLastMoveByPlayerId;

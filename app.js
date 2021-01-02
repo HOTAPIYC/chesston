@@ -1,5 +1,6 @@
-import express from "express";
-import { router } from "./api/routes/routes.js";
+const express = require("express");
+const io = require("socket.io");
+const router = require("./api/routes/routes");
 
 const app = express();
 
@@ -11,3 +12,9 @@ app.use(express.static("public"));
 app.use("/api/", router);
 
 app.listen(PORT, () => console.log("Server started"));
+
+const socket = io(app);
+
+socket.on("connection", (socket) => {
+  console.log("Client connected.");
+})

@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+const { uuidv4 } = require("uuid");
 
 let players = [];
 
@@ -59,4 +59,6 @@ function getPlayer(name, password) {
   });
 }
 
-export { createPlayer, getPlayer, getAllPlayers };
+exports.createPlayer = createPlayer;
+exports.getPlayer = getPlayer;
+exports.getAllPlayers = getAllPlayers;

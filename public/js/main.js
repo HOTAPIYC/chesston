@@ -10,8 +10,8 @@ const squareNames = [
   ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"]
 ];
 
-let gameOnDisplay = {};
-let moveStarted = false;
+let gameOnDisplay;
+const move = Move();
 
 const localGames = DataArray();
 const localRequests = DataArray();
@@ -103,6 +103,7 @@ document.querySelector('#ul-requests').addEventListener('click', async function(
 });
 
 document.querySelector("#ul-games").addEventListener("click", function (event) {
+  removePieces(squareNames);
   gameOnDisplay = localGames.getItem(event.target.parentElement.id);
   drawPieces(gameOnDisplay.fen, squareNames);
 });
@@ -110,27 +111,24 @@ document.querySelector("#ul-games").addEventListener("click", function (event) {
 document.addEventListener('click', async function (event) {
   if(event.target.classList.contains('square')) {
       if(gameOnDisplay.currentTurn === id){
-        const possibleMoves = gameOnDisplay.possibleMoves[event.target.id];
-        if(possibleMoves.length != 0){
-          console.log("Start move");
-          possibleMoves.push(event.target.id);
-          moveStarted = true;
+        const squaresToHighlight = gameOnDisplay.possibleMoves[event.target.id];
+        if(squaresToHighlight.length != 0){
+          move.startMove(event.target.id);
+          squaresToHighlight.push(event.target.id);
         } else {
           if(event.target.classList.contains('highlight')){
-            console.log("Make move");
+            const selectedMove = move.makeMove(event.target.id)
             const response = await fetch(`/api/games/${gameOnDisplay.id}/newmove`, {
               method: 'PUT',
-              body: JSON.stringify({move: event.target.id}),
+              body: JSON.stringify({move: selectedMove}),
               headers: {'Content-type': 'application/json; charset=UTF-8'}
             });
-            moveStarted = false;
           } else {
-            console.log("Abort move");
-            moveStarted = false;
+            move.abortMove();
           }
         }
         resetHighlight(squareNames);
-        setHighlights(possibleMoves);
+        setHighlights(squaresToHighlight);
       }
   } else {
       resetHighlight(squareNames);
@@ -267,6 +265,33 @@ function DataArray () {
   });
 }
 
+function Move () {
+  let _moveInProgress;
+  let _possibleMoves;
+
+  const startMove = function (startSquare) {
+    console.log("Start move");
+    _possibleMoves = gameOnDisplay.possibleMoves[startSquare];
+    _moveInProgress = true;
+  };
+  const makeMove = function (target) {
+    // TODO: Analyse for promotion and casteling
+    console.log("Make move");
+    _moveInProgress = false;
+    return _possibleMoves.filter((move) => move.slice(-2) === target)[0];
+  };
+  const abortMove = function () {
+    console.log("Abort move");
+    _possibleMoves = [];
+    _moveInProgress = false;
+  };
+  return Object.freeze({
+    startMove: startMove,
+    makeMove: makeMove,
+    abortMove: abortMove
+  });
+}
+
 // Sidebar control
 const sidebar = document.querySelector('.sidebar');
 const btn = document.querySelector('.sidebar-btn');
@@ -302,7 +327,7 @@ function drawPieces(fen, squareNames){
         square.classList.add(`fen-${char}`);
         colIndex++;
       } else {
-        colIndex =+ Number(char);
+        colIndex += Number(char);
       }
     });
   });
@@ -336,4 +361,34 @@ function resetHighlight(squaresNames){
       square.classList.remove('highlight');
     });
   });
+}
+
+function getMove (selectedSquare, moves) {
+  let selectedMove;
+  
+  moves.forEach(move => {
+    // Decode targets from moves in SAN notation
+    let re1 = new RegExp(/O-O/);
+    const castlingShort = re1.test(move);
+    let re2 = new RegExp(/O-O-O/);
+    const castlingLong = re2.test(move);
+    let re3 = new RegExp(/=[BNRQbnrq]/);
+    const promotion = re3.test(move);
+
+    // TODO: Show promotion dialog
+    let key = ''
+
+    if(!castlingLong && !castlingShort){
+      key = move.match(/[a-h][1-8]/)[0];
+    } else if(castlingLong){
+      key = this.color === 'w' ? 'c1' : 'c8';
+    } else if(castlingShort){
+      key = this.color === 'w' ? 'g1' : 'g8';
+    }
+
+    if(move.slice(-2) = selectedSquare){
+      selectedMove = move;
+    }
+  });
+  return selectedMove;
 }

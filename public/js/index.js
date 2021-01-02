@@ -50,15 +50,10 @@ document.querySelector("#login-btn").addEventListener("click", async function(ev
     // Write player to local storage, 
     // so that next page can access it
     localStorage.setItem('player',JSON.stringify(player));
-    document.location.href = 'dashboard.html';
+    document.location.href = 'main.html';
   } else {
     const msg = await response.json();
     alert(msg.msg);
     // TODO: Create nicer message.
   }
-});
-
-document.querySelector("#offline-link").addEventListener("click", function(event){
-  event.preventDefault();
-  document.location.href = "local.html";
 });
