@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "socket.io": "^3.0.4"
+    "chess.js": "^0.11.0",
+    "socket.io": "^3.0.4",
+    "uuidv4": "^6.2.6"
   },
   "devDependencies": {}
 }

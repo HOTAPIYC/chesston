@@ -2,6 +2,8 @@ const http = require('http')
 const fs = require('fs/promises')
 const path = require('path')
 const io = require('socket.io')
+const { uuid } = require('uuidv4')
+const { Chess } = require('chess.js')
 
 // Simple http server to serve static
 // files of page and content
@@ -48,8 +50,46 @@ const app = http.createServer(async (req, res) => {
 // Create websocket and attach to server
 const websocket = io(app)
 
-websocket.on('connection', data => {
+const games = []
+
+websocket.on('connection', socket => {
   console.log('Client connected')
+
+  socket.on('start game', args => {
+    const chess = Chess()
+    const game = {
+      id: uuid(), 
+      fen: chess.fen(),
+      turn: chess.turn(),
+      moves: []
+    }
+    socket.join(game.id)
+    socket.emit('started', game)
+    games.push(game)
+  })
+
+  socket.on('join game', args => {
+    socket.join(args)
+    socket.emit('joined', games.find(game => game.id === args))
+  })
+
+  socket.on('move', args => {
+    let update
+
+    games.forEach(game => {
+      if(game.id === args.id) {
+        const chess = Chess(game.fen)
+        chess.move(args.move)
+
+        game.fen = chess.fen()
+        game.turn = chess.turn()
+        game.moves.push(args.move)
+
+        update = game
+      }
+    })
+    socket.to(update.id).emit('update', update)
+  })
 })
 
 app.listen(5000)
