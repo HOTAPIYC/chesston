@@ -1,20 +1,55 @@
-const express = require("express");
-const http = require("http");
-const io = require("socket.io");
-const routes = require("./api/routes/routes");
+const http = require('http')
+const fs = require('fs/promises')
+const path = require('path')
+const io = require('socket.io')
 
-const app = express();
+// Simple http server to serve static
+// files of page and content
+const app = http.createServer(async (req, res) => {
+  try {
+    const pathname = __dirname + '/static' + req.url
+  
+    const stats = await fs.lstat(pathname)
+  
+    let filename = pathname
+  
+    // In case of a directory, search for 
+    // default index page 
+    if(stats.isDirectory()){
+      filename += '/index.html'
+    }
 
-const PORT = process.env.PORT || 5000;
+    const ext = path.parse(filename).ext
+    const map = {
+      '.html': 'text/html',
+      '.json': 'application/json',
+      '.ico': 'image/x-icon',
+      '.css': 'text/css',
+      '.png': 'image/png',
+      '.jpg': 'image/jpeg',
+      '.svg': 'image/svg+xml',
+      '.pdf': 'application/pdf',
+      '.js': 'text/javascript'
+    }
 
-app.use(express.json());
-app.use(express.urlencoded({extended: false}));
-app.use(express.static("public"));
-app.use("/api/", routes.router);
+    const file = await fs.readFile(filename)
 
-const server = http.createServer(app);
-const socket = io(server);
+    res.statusCode = 200
+    res.setHeader('Content', map[ext]);
+    res.end(file);
+  } 
+  catch {
+    res.statusCode = 500
+    res.setHeader('Content', 'plain/text')
+    res.end('Error retrieving file')
+  }
+})
 
-routes.initWebsocket(socket);
+// Create websocket and attach to server
+const websocket = io(app)
 
-server.listen(PORT, () => console.log("Server started"));
+websocket.on('connection', data => {
+  console.log('Client connected')
+})
+
+app.listen(5000)
