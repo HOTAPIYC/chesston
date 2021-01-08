@@ -1,11 +1,11 @@
 [![GitHub license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 # Chesston
-This application extends the [chess.js](https://github.com/jhlywa/chess.js) library with a user interface. To make the actual gameplay server independant, chess.js is included in this solution. :joystick:
-
-Gameplay between two players can be synced via a server. Multiple games can be started at the same time. The artifical player currently plays random moves only and needs to be included into an offline option again.
+This application extends the [chess.js](https://github.com/jhlywa/chess.js) library with a user interface. Start a game and join by entering the returned UUID in a second client. :joystick:
 
 The chess pieces are from [wikipedia](https://en.wikipedia.org/wiki/Chess_piece). Replace the png files with custom ones if you wish to customize the board.
+
+This application is very much inconplete.
 
 ## Licence
 ```
