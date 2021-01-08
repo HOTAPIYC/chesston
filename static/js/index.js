@@ -5,6 +5,8 @@ let id // Game id
 let color // Color of player client
 let turn // Color of the current turn
 let legal // All legal moves of current board state
+let check // Current game is in check
+let checkmate // Current game is in checkmate
 
 // If move assembly (to consecutive clicks on the
 // board) has not been finished, prevent that too many
@@ -64,26 +66,46 @@ document.querySelector('#join').addEventListener('click', event => {
 })
 
 websocket.on('started', args => {
+  // Update local status vars
   id = args.id
   legal = args.legal
   color = 'w'
   turn = args.turn
-  board.drawPieces(args.fen)
   console.log('Game started with id: ' + id)
+  // Update UI
+  board.drawPieces(args.fen)
+  status()
 })
 
 websocket.on('joined', args => {
+  // Update local status vars
   id = args.id
   legal = args.legal
   color = 'b'
   turn = args.turn
-  board.drawPieces(args.fen)
   console.log('You joined game id: ' + id)
+  // Update UI
+  board.drawPieces(args.fen)
+  status()
 })
 
 websocket.on('update', args => {
+  // Update local status vars
   legal = args.legal
   turn = args.turn
+  check = args.check
+  checkmate = args.checkmate
+  // Update UI
   board.drawPieces(args.fen)
-  console.log('Current turn: ' + turn)
+  status()
 })
+
+const status = () => {
+  document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${turn}`
+  if(check) {
+    document.querySelector('#status').textContent += ' | Check!'
+  }
+  if(checkmate) {
+    document.querySelector('#status').textContent += ' | Checkmate!'
+  }
+}
