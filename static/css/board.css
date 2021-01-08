@@ -5,13 +5,13 @@
 .light {
     background-color: #ffce9e;
 }
-.light.highlight {
+.light.highlight, .light.start {
     background-color: #00FF00;
 }
 .dark {
     background-color: #d18b47;
 }
-.dark.highlight {
+.dark.highlight, .dark.start {
     background-color: #00E500;
 }
 .square {
@@ -25,39 +25,39 @@
     display: flex;
 }
 /* Pieces */
-.fen-b-w{
+.fen-B{
     background-image: url("../img/bishop_white.png");
 }
-.fen-b-b{
+.fen-b{
     background-image: url("../img/bishop_black.png");
 }
-.fen-k-w{
+.fen-K{
     background-image: url("../img/king_white.png");
 }
-.fen-k-b{
+.fen-k{
     background-image: url("../img/king_black.png");
 }
-.fen-n-w{
+.fen-N{
     background-image: url("../img/knight_white.png");
 }
-.fen-n-b{
+.fen-n{
     background-image: url("../img/knight_black.png");
 }
-.fen-p-w{
+.fen-P{
     background-image: url("../img/pawn_white.png");
 }
-.fen-p-b{
+.fen-p{
     background-image: url("../img/pawn_black.png");
 }
-.fen-q-w{
+.fen-Q{
     background-image: url("../img/queen_white.png");
 }
-.fen-q-b{
+.fen-q{
     background-image: url("../img/queen_black.png");
 }
-.fen-r-w{
+.fen-R{
     background-image: url("../img/rook_white.png");
 }
-.fen-r-b{
+.fen-r{
     background-image: url("../img/rook_black.png");
 }
