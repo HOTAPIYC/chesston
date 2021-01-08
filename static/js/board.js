@@ -1,6 +1,6 @@
 function Chessboard(){
   // Board interaction
-  const squareNames = [
+  const squares = [
     ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"],
     ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"],
     ["a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"],
@@ -14,8 +14,8 @@ function Chessboard(){
   // Add hightlight class to a list of square names
   // Squares to highlight are expected to be moves in SAN
   // notation, that contain target square in last two chars.
-  const setHighlights = (legal,start) => {
-    resetHighlights()
+  const highlight = (legal, start) => {
+    reset()
     document.getElementById(start).classList.add('start')
     legal.forEach((move) => {
       if(move.from === start){
@@ -25,8 +25,8 @@ function Chessboard(){
   }
 
   // Remove highlight class from all squares
-  const resetHighlights = () => {
-    squareNames.forEach((row) => {
+  const reset = () => {
+    squares.forEach((row) => {
       row.forEach((squareName) => {
         const square = document.getElementById(squareName)
         square.classList.remove('highlight')
@@ -37,14 +37,14 @@ function Chessboard(){
 
   // Draws pieces on board according to FEN string
   // Sample string: "rnbnkqrb/pppppppp/8/8/8/8/PPPPPPPP/RNBNKQRB w KQkq - 0 1"
-  const drawPieces = (fen) => {
-    removePieces()
+  const draw = (fen) => {
+    clear()
     const fenPerRow = fen.substring(0,fen.search(/\s/)).split("/");
     fenPerRow.forEach((row,rowIndex) => {
       let colIndex = 0;
       [...row].forEach((char) => {
         if(/[r,n,b,k,q,p]/i.test(char)){
-          const square = document.getElementById(squareNames[rowIndex][colIndex]);
+          const square = document.getElementById(squares[rowIndex][colIndex]);
           square.classList.add(`fen-${char}`);
           colIndex++;
         } else {
@@ -55,8 +55,8 @@ function Chessboard(){
   }
 
   // Remove all FEN class names from the square divs
-  const removePieces = () => {
-    squareNames.forEach((row) => {
+  const clear = () => {
+    squares.forEach((row) => {
       row.forEach((squareName) => {
         const square = document.getElementById(squareName);
         square.className = square.className.replace(/fen-./, "");
@@ -65,9 +65,9 @@ function Chessboard(){
   }
 
   return {
-    drawPieces: drawPieces,
-    removePieces: removePieces,
-    setHighlights: setHighlights,
-    resetHighlights: resetHighlights
+    draw: draw,
+    clear: clear,
+    highlight: highlight,
+    reset: reset
   }
 }

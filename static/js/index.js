@@ -2,20 +2,20 @@ const websocket = io()
 const board = Chessboard()
 
 let id // Game id
-let color // Color of player client
+let color // Color of player
 let turn // Color of the current turn
 let legal // All legal moves of current board state
 let check // Current game is in check
 let checkmate // Current game is in checkmate
 
-// If move assembly (to consecutive clicks on the
+// If move assembly (two consecutive clicks on the
 // board) has not been finished, prevent that too many
 // parallel threads are started
 let lock
 
 document.addEventListener('click', event => {
   if(event.target.classList.contains('square') && turn === color && !lock){
-    board.setHighlights(legal,event.target.id)
+    board.highlight(legal, event.target.id)
     move(event.target.id)
     // Prevent start of next async call before
     // second click has been evaluated
@@ -30,7 +30,7 @@ const move = async (start) => {
     // Send selection to server
     websocket.emit('move', {id: id, move: { from: start, to: target }})
     console.log('Your move: ' + start + "-" + target)
-    board.resetHighlights()
+    board.reset()
     // Release click listener and allow
     // renewal of move call
     lock = false
@@ -38,7 +38,7 @@ const move = async (start) => {
   catch {
     // Abort move if no valid target
     // has been selected
-    board.resetHighlights()
+    board.reset()
     // Release click listener and allow
     // renewal of move call
     lock = false
@@ -73,7 +73,7 @@ websocket.on('started', args => {
   turn = args.turn
   console.log('Game started with id: ' + id)
   // Update UI
-  board.drawPieces(args.fen)
+  board.draw(args.fen)
   status()
 })
 
@@ -85,7 +85,7 @@ websocket.on('joined', args => {
   turn = args.turn
   console.log('You joined game id: ' + id)
   // Update UI
-  board.drawPieces(args.fen)
+  board.draw(args.fen)
   status()
 })
 
@@ -96,7 +96,7 @@ websocket.on('update', args => {
   check = args.check
   checkmate = args.checkmate
   // Update UI
-  board.drawPieces(args.fen)
+  board.draw(args.fen)
   status()
 })
 
