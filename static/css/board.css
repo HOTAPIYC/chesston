@@ -5,13 +5,13 @@
 .light {
     background-color: #ffce9e;
 }
-.light.highlight {
+.light.highlight, .light.start {
     background-color: #00FF00;
 }
 .dark {
     background-color: #d18b47;
 }
-.dark.highlight {
+.dark.highlight, .dark.start {
     background-color: #00E500;
 }
 .square {

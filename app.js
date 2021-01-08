@@ -1,74 +1,48 @@
+const express = require('express')
 const http = require('http')
-const fs = require('fs/promises')
-const path = require('path')
 const io = require('socket.io')
-const { uuid } = require('uuidv4')
+const { v4:uuid } = require('uuid')
 const { Chess } = require('chess.js')
 
-// Simple http server to serve static
+// Express server to serve static
 // files of page and content
-const app = http.createServer(async (req, res) => {
-  try {
-    const pathname = __dirname + '/static' + req.url
-  
-    const stats = await fs.lstat(pathname)
-  
-    let filename = pathname
-  
-    // In case of a directory, search for 
-    // default index page 
-    if(stats.isDirectory()){
-      filename += '/index.html'
-    }
-
-    const ext = path.parse(filename).ext
-    const map = {
-      '.html': 'text/html',
-      '.json': 'application/json',
-      '.ico': 'image/x-icon',
-      '.css': 'text/css',
-      '.png': 'image/png',
-      '.jpg': 'image/jpeg',
-      '.svg': 'image/svg+xml',
-      '.pdf': 'application/pdf',
-      '.js': 'text/javascript'
-    }
-
-    const file = await fs.readFile(filename)
-
-    res.statusCode = 200
-    res.setHeader('Content', map[ext]);
-    res.end(file);
-  } 
-  catch {
-    res.statusCode = 500
-    res.setHeader('Content', 'plain/text')
-    res.end('Error retrieving file')
-  }
-})
+const app = express()
+const server = http.createServer(app)
+app.use('/', express.static(__dirname + '/static'))
 
 // Create websocket and attach to server
-const websocket = io(app)
+const websocket = io(server)
 
+// Array holding all current games
 const games = []
 
+// Real-time interaction between server and boards
 websocket.on('connection', socket => {
   console.log('Client connected')
 
   socket.on('start game', args => {
+    // Create new instance of chess
     const chess = Chess()
+    // Create game with status info
+    // from fresh chess game
     const game = {
       id: uuid(), 
       fen: chess.fen(),
       turn: chess.turn(),
-      moves: []
+      legal: chess.moves({verbose: true}),
+      history: []
     }
+    games.push(game)
+    // Create socket room to target
+    // clients more easily only related
+    // to this game
     socket.join(game.id)
     socket.emit('started', game)
-    games.push(game)
   })
 
   socket.on('join game', args => {
+    // Find and get game requested 
+    // and join socket room
     socket.join(args)
     socket.emit('joined', games.find(game => game.id === args))
   })
@@ -77,19 +51,25 @@ websocket.on('connection', socket => {
     let update
 
     games.forEach(game => {
+      // Find game to update
       if(game.id === args.id) {
+        // Create chess instance with current
+        // game status and perform move 
         const chess = Chess(game.fen)
         chess.move(args.move)
 
+        // Update game status information
         game.fen = chess.fen()
         game.turn = chess.turn()
-        game.moves.push(args.move)
+        game.legal = chess.moves({verbose: true})
+        game.history.push(args.move)
 
         update = game
       }
     })
-    socket.to(update.id).emit('update', update)
+    // Return updated game
+    websocket.sockets.in(update.id).emit('update', update)
   })
 })
 
-app.listen(5000)
+server.listen(5000)

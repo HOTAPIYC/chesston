@@ -14,11 +14,13 @@ function Chessboard(){
   // Add hightlight class to a list of square names
   // Squares to highlight are expected to be moves in SAN
   // notation, that contain target square in last two chars.
-  const setHighlights = (squaresToHighlight) => {
+  const setHighlights = (legal,start) => {
     resetHighlights()
-    squaresToHighlight.map((move) => {
-      const i = move.match(/[a-h][1-8]/)
-      document.getElementById(i).classList.add('highlight')
+    document.getElementById(start).classList.add('start')
+    legal.forEach((move) => {
+      if(move.from === start){
+        document.getElementById(move.to).classList.add('highlight')
+      }
     })
   }
 
@@ -28,6 +30,7 @@ function Chessboard(){
       row.forEach((squareName) => {
         const square = document.getElementById(squareName)
         square.classList.remove('highlight')
+        square.classList.remove('start')
       })
     })
   }
