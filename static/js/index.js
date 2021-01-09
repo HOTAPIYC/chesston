@@ -61,32 +61,33 @@ document.querySelector('#start').addEventListener('click', event => {
   websocket.emit('start game')
 })
 
-document.querySelector('#join').addEventListener('click', event => {
-  websocket.emit('join game', document.querySelector('#id').value)
+document.querySelector('#join').addEventListener('click', async event => {
+  const id = await showInputDialog({text: 'Enter a valid ID:'})
+  websocket.emit('join game', id)
 })
 
-websocket.on('started', args => {
+websocket.on('started', async args => {
   // Update local status vars
   id = args.id
   legal = args.legal
   color = 'w'
   turn = args.turn
-  console.log('Game started with id: ' + id)
+  await showMsgDialog({msgln1: 'The id of your game is:', msgln2: args.id})
   // Update UI
   board.draw(args.fen)
-  status()
+  updateStatus()
 })
 
-websocket.on('joined', args => {
+websocket.on('joined', async args => {
   // Update local status vars
   id = args.id
   legal = args.legal
   color = 'b'
   turn = args.turn
-  console.log('You joined game id: ' + id)
+  await showMsgDialog({msgln1: 'You joined the game!', msgln2: ''})
   // Update UI
   board.draw(args.fen)
-  status()
+  updateStatus()
 })
 
 websocket.on('update', args => {
@@ -97,15 +98,5 @@ websocket.on('update', args => {
   checkmate = args.checkmate
   // Update UI
   board.draw(args.fen)
-  status()
+  updateStatus()
 })
-
-const status = () => {
-  document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${turn}`
-  if(check) {
-    document.querySelector('#status').textContent += ' | Check!'
-  }
-  if(checkmate) {
-    document.querySelector('#status').textContent += ' | Checkmate!'
-  }
-}
