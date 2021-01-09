@@ -100,3 +100,14 @@ websocket.on('update', args => {
   board.draw(args.fen)
   updateStatus()
 })
+
+// Update status bar information
+const updateStatus = () => {
+  document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${turn}`
+  if(check) {
+    document.querySelector('#status').textContent += ' | Check!'
+  }
+  if(checkmate) {
+    document.querySelector('#status').textContent += ' | Checkmate!'
+  }
+}

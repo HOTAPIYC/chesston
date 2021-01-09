@@ -1,10 +1,12 @@
+// Attach two-line modal dialog to the modal
+// root div and wait for OK button
 const showMsgDialog = (props) => {
   const msgDialog = `
     <div class="modal">
       <div>
         <p>${props.msgln1}</p>
         <p>${props.msgln2}</p>
-        <button>Close</button>
+        <button>OK</button>
       </div>
     </div>
   `
@@ -18,13 +20,16 @@ const showMsgDialog = (props) => {
   })
 }
 
+// Attach input modal dialog to the modal
+// root div and wait for Send button. Return
+// content of input field
 const showInputDialog = (props) => {
   const inputDialog =  `
     <div class="modal">
       <div>
         <p>${props.text}</p>
         <input type="text"></input>
-        <button>Close</button>
+        <button>Send</button>
       </div>
     </div>
   `
@@ -37,14 +42,4 @@ const showInputDialog = (props) => {
       res(value)
     })
   })
-}
-
-const updateStatus = () => {
-  document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${turn}`
-  if(check) {
-    document.querySelector('#status').textContent += ' | Check!'
-  }
-  if(checkmate) {
-    document.querySelector('#status').textContent += ' | Checkmate!'
-  }
 }
