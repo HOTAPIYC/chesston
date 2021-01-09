@@ -14,7 +14,7 @@ function Chessboard(){
   // Add hightlight class to a list of square names
   // Squares to highlight are expected to be moves in SAN
   // notation, that contain target square in last two chars.
-  const highlight = (legal, start) => {
+  function highlight (legal, start) {
     reset()
     document.getElementById(start).classList.add('start')
     legal.forEach((move) => {
@@ -25,7 +25,7 @@ function Chessboard(){
   }
 
   // Remove highlight class from all squares
-  const reset = () => {
+  function reset () {
     squares.forEach((row) => {
       row.forEach((squareName) => {
         const square = document.getElementById(squareName)
@@ -37,7 +37,7 @@ function Chessboard(){
 
   // Draws pieces on board according to FEN string
   // Sample string: "rnbnkqrb/pppppppp/8/8/8/8/PPPPPPPP/RNBNKQRB w KQkq - 0 1"
-  const draw = (fen) => {
+  function draw (fen) {
     clear()
     const fenPerRow = fen.substring(0,fen.search(/\s/)).split("/");
     fenPerRow.forEach((row,rowIndex) => {
@@ -55,7 +55,7 @@ function Chessboard(){
   }
 
   // Remove all FEN class names from the square divs
-  const clear = () => {
+  function clear () {
     squares.forEach((row) => {
       row.forEach((squareName) => {
         const square = document.getElementById(squareName);

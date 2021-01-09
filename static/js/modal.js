@@ -1,6 +1,6 @@
 // Attach two-line modal dialog to the modal
 // root div and wait for OK button
-const showMsgDialog = (props) => {
+function showMsgDialog (props) {
   const msgDialog = `
     <div class="modal">
       <div>
@@ -23,7 +23,7 @@ const showMsgDialog = (props) => {
 // Attach input modal dialog to the modal
 // root div and wait for Send button. Return
 // content of input field
-const showInputDialog = (props) => {
+function showInputDialog (props) {
   const inputDialog =  `
     <div class="modal">
       <div>

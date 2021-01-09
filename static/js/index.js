@@ -23,7 +23,7 @@ document.addEventListener('click', event => {
   }
 })
 
-const move = async (start) => {
+async function move (start) {
   try {
     // Wait for second valid click on board
     const target = await click()
@@ -45,7 +45,7 @@ const move = async (start) => {
   }
 }
 
-const click = () => {
+function click () {
   return new Promise((res, rej) => {
     document.addEventListener('click', event => {
       if(event.target.classList.contains('highlight')) {
@@ -102,7 +102,7 @@ websocket.on('update', args => {
 })
 
 // Update status bar information
-const updateStatus = () => {
+function updateStatus () {
   document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${turn}`
   if(check) {
     document.querySelector('#status').textContent += ' | Check!'
