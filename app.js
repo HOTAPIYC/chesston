@@ -27,7 +27,7 @@ websocket.on('connection', socket => {
     // from fresh chess game
     const game = {
       id: uuid(), 
-      fen: chess.fen(),
+      board: chess.board(),
       turn: chess.turn(),
       check: chess.in_check(),
       checkmate: chess.in_checkmate(),
@@ -61,7 +61,7 @@ websocket.on('connection', socket => {
         chess.move(args.move)
 
         // Update game status information
-        game.fen = chess.fen()
+        game.board = chess.board()
         game.turn = chess.turn()
         game.legal = chess.moves({verbose: true})
         game.check = chess.in_check()

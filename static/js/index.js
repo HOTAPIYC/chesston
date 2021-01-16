@@ -66,6 +66,10 @@ document.querySelector('#join').addEventListener('click', async event => {
   websocket.emit('join game', id)
 })
 
+document.querySelector('#flip').addEventListener('click', event => {
+  board.flip()
+})
+
 websocket.on('started', async args => {
   // Update local status vars
   id = args.id
@@ -73,8 +77,9 @@ websocket.on('started', async args => {
   color = 'w'
   turn = args.turn
   await showMsgDialog({msgln1: 'The id of your game is:', msgln2: args.id})
+  board.setState(args.board)
   // Update UI
-  board.draw(args.fen)
+  board.drawPieces()
   updateStatus()
 })
 
@@ -85,8 +90,9 @@ websocket.on('joined', async args => {
   color = 'b'
   turn = args.turn
   await showMsgDialog({msgln1: 'You joined the game!', msgln2: ''})
+  board.setState(args.board)
   // Update UI
-  board.draw(args.fen)
+  board.drawPieces()
   updateStatus()
 })
 
@@ -96,8 +102,9 @@ websocket.on('update', args => {
   turn = args.turn
   check = args.check
   checkmate = args.checkmate
+  board.setState(args.board)
   // Update UI
-  board.draw(args.fen)
+  board.drawPieces()
   updateStatus()
 })
 

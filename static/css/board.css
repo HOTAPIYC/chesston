@@ -25,39 +25,39 @@
   display: flex;
 }
 /* Pieces */
-.fen-B{
+.fen-b-w{
   background-image: url("../img/bishop_white.png");
 }
-.fen-b{
+.fen-b-b{
   background-image: url("../img/bishop_black.png");
 }
-.fen-K{
+.fen-k-w{
   background-image: url("../img/king_white.png");
 }
-.fen-k{
+.fen-k-b{
   background-image: url("../img/king_black.png");
 }
-.fen-N{
+.fen-n-w{
   background-image: url("../img/knight_white.png");
 }
-.fen-n{
+.fen-n-b{
   background-image: url("../img/knight_black.png");
 }
-.fen-P{
+.fen-p-w{
   background-image: url("../img/pawn_white.png");
 }
-.fen-p{
+.fen-p-b{
   background-image: url("../img/pawn_black.png");
 }
-.fen-Q{
+.fen-q-w{
   background-image: url("../img/queen_white.png");
 }
-.fen-q{
+.fen-q-b{
   background-image: url("../img/queen_black.png");
 }
-.fen-R{
+.fen-r-w{
   background-image: url("../img/rook_white.png");
 }
-.fen-r{
+.fen-r-b{
   background-image: url("../img/rook_black.png");
 }
