@@ -1,7 +1,7 @@
 const websocket = io()
 const board = Chessboard()
 
-let id // Game id
+let id // Player id
 let color // Color of player
 let turn // Color of the current turn
 let legal // All legal moves of current board state
@@ -28,7 +28,7 @@ async function move (start) {
     // Wait for second valid click on board
     const target = await click()
     // Send selection to server
-    websocket.emit('move', {id: id, move: { from: start, to: target }})
+    websocket.emit('move', {player: id, move: { from: start, to: target }})
     console.log('Your move: ' + start + "-" + target)
     board.reset()
     // Release click listener and allow
@@ -72,11 +72,11 @@ document.querySelector('#flip').addEventListener('click', event => {
 
 websocket.on('started', async args => {
   // Update local status vars
-  id = args.id
+  id = args.whitePlayer
   legal = args.legal
   color = 'w'
   turn = args.turn
-  await showMsgDialog({msgln1: 'The id of your game is:', msgln2: args.id})
+  await showMsgDialog({msgln1: 'Send this code to someone to join:', msgln2: args.blackPlayer})
   board.setState(args.board)
   // Update UI
   board.drawPieces()
@@ -85,7 +85,7 @@ websocket.on('started', async args => {
 
 websocket.on('joined', async args => {
   // Update local status vars
-  id = args.id
+  id = args.blackPlayer
   legal = args.legal
   color = 'b'
   turn = args.turn

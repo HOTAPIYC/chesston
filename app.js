@@ -26,7 +26,8 @@ websocket.on('connection', socket => {
     // Create game with status info
     // from fresh chess game
     const game = {
-      id: uuid(), 
+      whitePlayer: uuid(),
+      blackPlayer: uuid(),
       board: chess.board(),
       fen: chess.fen(),
       turn: chess.turn(),
@@ -39,7 +40,7 @@ websocket.on('connection', socket => {
     // Create socket room to target
     // clients more easily only related
     // to this game
-    socket.join(game.id)
+    socket.join(game.whitePlayer)
     socket.emit('started', game)
   })
 
@@ -47,7 +48,7 @@ websocket.on('connection', socket => {
     // Find and get game requested 
     // and join socket room
     socket.join(args)
-    socket.emit('joined', games.find(game => game.id === args))
+    socket.emit('joined', games.find(game => game.blackPlayer === args))
   })
 
   socket.on('move', args => {
@@ -55,7 +56,7 @@ websocket.on('connection', socket => {
 
     games.forEach(game => {
       // Find game to update
-      if(game.id === args.id) {
+      if(game.whitePlayer === args.player || game.blackPlayer === args.player) {
         // Create chess instance with current
         // game status and perform move 
         const chess = Chess(game.fen)
@@ -74,7 +75,8 @@ websocket.on('connection', socket => {
       }
     })
     // Return updated game
-    websocket.sockets.in(update.id).emit('update', update)
+    websocket.sockets.in(update.whitePlayer).emit('update', update)
+    websocket.sockets.in(update.blackPlayer).emit('update', update)
   })
 })
 
