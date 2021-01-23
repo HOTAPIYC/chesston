@@ -1,4 +1,4 @@
-// Attach two-line modal dialog to the modal
+// Attach multi-line modal dialog to the modal
 // root div and wait for OK button
 function showMsgDialog (...props) {
   const msgDialog = `

@@ -16,7 +16,7 @@ function Chessboard(){
 
   // Extend array of pieces with square ids
   function update (board) {
-    state = board.map((row, idx1) => {
+    state = game.board.map((row, idx1) => {
       return row.map((piece, idx2) => {
         return {id: squares[idx1][idx2], piece: piece};
       });

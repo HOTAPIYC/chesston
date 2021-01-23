@@ -1,5 +1,6 @@
 const websocket = io();
 const board = Chessboard();
+const header = Header();
 
 // Local status vars
 let game;
@@ -95,23 +96,10 @@ websocket.on('update', args => {
   updateUi();
 });
 
-// Update status bar information
-function updateStatusBar (game) {
-  const color = game.whitePlayer.id === id ? 'white' : 'black';
-
-  document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${game.turn.color}`;
-  if(game.check) {
-    document.querySelector('#status').textContent += ' | Check!';
-  }
-  if(game.checkmate) {
-    document.querySelector('#status').textContent += ' | Checkmate!';
-  }
-}
-
-// Redraw board and status bar
+// Redraw board and header
 function updateUi () {
-  board.update(game.board);
-  updateStatusBar(game);
+  board.update(game);
+  header.update(game);
 }
 
 // Check if a player ID has been saved to the
