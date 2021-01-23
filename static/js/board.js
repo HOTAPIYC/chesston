@@ -1,5 +1,5 @@
 function Chessboard(){
-  let state = []
+  let state = [];
 
   const squares = [
     ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"],
@@ -10,89 +10,91 @@ function Chessboard(){
     ["a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3"],
     ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"],
     ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"]
-  ]
+  ];
 
   // Extend array of pieces with square ids
-  function setState (board) {
+  function update (board) {
     state = board.map((row, idx1) => {
       return row.map((piece, idx2) => {
-        return {id: squares[idx1][idx2], piece: piece}
-      })
-    })
+        return {id: squares[idx1][idx2], piece: piece};
+      });
+    });
+
+    drawPieces();
   }
 
   // Add hightlight class to a list of square names
   // Squares to highlight are expected to be moves in SAN
   // notation, that contain target square in last two chars.
-  function highlight (legal, start) {
-    reset()
+  function setHighlights (legal, start) {
+    resetHighlights();
 
-    document.getElementById(start).classList.add('start')
+    const el = document.getElementById(start);
+    el.classList.add('start');
 
     legal.forEach((move) => {
       if(move.from === start){
-        document.getElementById(move.to).classList.add('highlight')
+        const el = document.getElementById(move.to);
+        el.classList.add('highlight');
       }
-    })
+    });
   }
 
   // Remove highlight class from all squares
-  function reset () {
+  function resetHighlights () {
     document.querySelectorAll('.square').forEach(el => {
-      el.classList.remove('highlight')
-      el.classList.remove('start')
-    })
+      el.classList.remove('highlight');
+      el.classList.remove('start');
+    });
   }
 
   // Draws pieces from current board state
   function drawPieces () {
-    clear()
+    clear();
 
     state.forEach(row => {
       row.forEach(square => {
         if (square.piece != null) {
-          const el = document.getElementById(square.id)
-          el.classList.add(`fen-${square.piece.type}-${square.piece.color}`)
+          const el = document.getElementById(square.id);
+          el.classList.add(`fen-${square.piece.type}-${square.piece.color}`);
         }
-      })
-    })
+      });
+    });
   }
 
   // Remove all FEN class names from the square divs
   function clear () {
     document.querySelectorAll('.square').forEach(el => {
-      el.className = el.className.replace(/fen-.-./, "")
-    })
+      el.className = el.className.replace(/fen-.-./, "");
+    });
   }
 
   // Default orientation of board is white base line at
   // the bottom. Board is flipped by reseting ids of squares.
-  let flipped = false
+  let flipped = false;
 
   function flip () {
-    let arr = []
+    let arr = [];
   
     if (flipped) {
-      arr = squares.flat()
+      arr = squares.flat();
     } else {
-      arr = squares.flat().reverse()
+      arr = squares.flat().reverse();
     }
   
     document.querySelectorAll('.square').forEach((el, index) => {
-      el.id = arr[index]
-    })
+      el.id = arr[index];
+    });
   
-    flipped = !flipped
+    flipped = !flipped;
 
-    drawPieces()
+    drawPieces();
   }
 
   return {
-    setState: setState,
-    drawPieces: drawPieces,
-    clear: clear,
-    highlight: highlight,
-    reset: reset,
+    update: update,
+    setHighlights: setHighlights,
+    resetHighlights: resetHighlights,
     flip: flip
-  }
+  };
 }

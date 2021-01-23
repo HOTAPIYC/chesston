@@ -1,133 +1,118 @@
-const websocket = io()
-const board = Chessboard()
+const websocket = io();
+const board = Chessboard();
 
-let id // Player id
-let color // Color of player
-let turn // Color of the current turn
-let legal // All legal moves of current board state
-let check // Current game is in check
-let checkmate // Current game is in checkmate
+let game;
+let id;
 
 // If move assembly (two consecutive clicks on the
 // board) has not been finished, prevent that too many
 // parallel threads are started
-let lock
+let lock;
 
 document.addEventListener('click', event => {
-  if(event.target.classList.contains('square') && turn === color && !lock){
-    board.highlight(legal, event.target.id)
-    move(event.target.id)
+  if(event.target.classList.contains('square') && game.turn.id === id && !lock){
+    board.setHighlights(game.legal, event.target.id);
+    move(event.target.id);
     // Prevent start of next async call before
     // second click has been evaluated
-    lock = true
+    lock = true;
   }
-})
+});
 
 async function move (start) {
   try {
     // Wait for second valid click on board
-    const target = await click()
+    const target = await click();
     // Send selection to server
-    websocket.emit('move', {player: id, move: { from: start, to: target }})
-    console.log('Your move: ' + start + "-" + target)
-    board.reset()
+    websocket.emit('move', {id: id, move: { from: start, to: target }});
+    console.log('Your move: ' + start + "-" + target);
+    board.resetHighlights();
     // Release click listener and allow
     // renewal of move call
-    lock = false
+    lock = false;
   }
   catch {
     // Abort move if no valid target
     // has been selected
-    board.reset()
+    board.resetHighlights();
     // Release click listener and allow
     // renewal of move call
-    lock = false
+    lock = false;
   }
 }
 
 function click () {
-  return new Promise((res, rej) => {
+  return new Promise((resolve, reject) => {
     document.addEventListener('click', event => {
       if(event.target.classList.contains('highlight')) {
-        res(event.target.id)
+        resolve(event.target.id);
       } else {
-        rej()
+        reject();
       }
-    })
-  })
+    });
+  });
 }
 
 document.querySelector('#start').addEventListener('click', event => {
-  websocket.emit('start game')
-})
+  websocket.emit('start game');
+});
 
 document.querySelector('#join').addEventListener('click', async event => {
-  const id = await showInputDialog({text: 'Enter a valid ID:'})
-  websocket.emit('join game', id)
-})
+  id = await showInputDialog('Enter a valid ID:');
+  websocket.emit('join game', id);
+});
 
 document.querySelector('#flip').addEventListener('click', event => {
-  board.flip()
-})
+  board.flip();
+});
 
 websocket.on('started', async args => {
-  // Update local status vars
-  id = args.whitePlayer
-  legal = args.legal
-  color = 'w'
-  turn = args.turn
-  await showMsgDialog({msgln1: 'Send this code to someone to join:', msgln2: args.blackPlayer})
-  board.setState(args.board)
-  // Update UI
-  board.drawPieces()
-  updateStatus()
-  // Save ID to url
-  window.history.replaceState({}, '', `/${id}`)
-})
+  game = args;
+  id = game.whitePlayer.id;
+  await showMsgDialog('Send this code to someone to join:', game.blackPlayer.id);
+
+  board.update(game.board);
+  updateStatus();
+
+  window.history.replaceState({}, '', `/${id}`);
+});
 
 websocket.on('joined', async args => {
-  // Update local status vars
-  id = args.blackPlayer
-  legal = args.legal
-  color = 'b'
-  turn = args.turn
-  board.setState(args.board)
-  // Update UI
-  board.drawPieces()
-  updateStatus()
-  // Save ID to url
-  window.history.replaceState({}, '', `/${id}`)
-})
+  game = args;
+
+  board.update(game.board);
+  updateStatus();
+
+  window.history.replaceState({}, '', `/${id}`);
+});
 
 websocket.on('update', args => {
-  // Update local status vars
-  legal = args.legal
-  turn = args.turn
-  check = args.check
-  checkmate = args.checkmate
-  board.setState(args.board)
-  // Update UI
-  board.drawPieces()
-  updateStatus()
-})
+  game = args;
+
+  board.update(game.board);
+  updateStatus();
+});
 
 // Update status bar information
 function updateStatus () {
-  document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${turn}`
-  if(check) {
-    document.querySelector('#status').textContent += ' | Check!'
+  const color = game.whitePlayer.id === id ? 'w' : 'b';
+
+  document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${game.turn.color}`;
+  if(game.check) {
+    document.querySelector('#status').textContent += ' | Check!';
   }
-  if(checkmate) {
-    document.querySelector('#status').textContent += ' | Checkmate!'
+  if(game.checkmate) {
+    document.querySelector('#status').textContent += ' | Checkmate!';
   }
 }
 
 // Check if a player ID has been saved to the
 // address bar and rejoin game if that's the case
 window.addEventListener('load', event => {
-  const id = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12}/i.exec(window.location.href)
-  console.log('ID string in address bar: ' + id)
-  if(id != null) {
-    websocket.emit('join game', id[0])
+  const idUrl = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12}/i.exec(window.location.href);
+
+  if(idUrl != null) {
+    id = idUrl[0];
+    websocket.emit('join game', id);
   }
-})
+});
