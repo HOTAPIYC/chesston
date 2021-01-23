@@ -1,15 +1,19 @@
+:root {
+  --color-light-square: #ffce9e;
+  --color-dark-square: #d18b47;
+}
 .chessboard{
   max-width: 500px;
 }
 /* Squares */
 .light {
-  background-color: #ffce9e;
+  background-color: var(--color-light-square);
 }
 .light.highlight, .light.start {
   background-color: #00FF00;
 }
 .dark {
-  background-color: #d18b47;
+  background-color: var(--color-dark-square);
 }
 .dark.highlight, .dark.start {
   background-color: #00E500;

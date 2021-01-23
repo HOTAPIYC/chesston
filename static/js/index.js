@@ -67,6 +67,10 @@ document.querySelector('#flip').addEventListener('click', event => {
   board.flip();
 });
 
+document.querySelector('#colors').addEventListener('click', event => {
+  board.toggleColor();
+});
+
 websocket.on('started', async args => {
   game = args;
   id = game.whitePlayer.id;

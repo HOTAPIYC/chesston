@@ -17,13 +17,18 @@
   margin-bottom: 0.5rem;
 }
 
-.buttons > #start, .buttons > #join {
+.buttons {
   margin-top: 0.5rem;
+  text-align: center;
+}
+
+.buttons > #start, .buttons > #join {
   width: 50%;
   height: 2rem;
 }
 
-.buttons > #flip {
+.buttons > #flip, .buttons > #colors {
+  width: 3.5rem;
   padding: 0.2rem;
 }
 

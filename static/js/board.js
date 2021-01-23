@@ -1,5 +1,7 @@
 function Chessboard(){
   let state = [];
+  let currentColor = 'default';
+  let flipped = false;
 
   const squares = [
     ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"],
@@ -71,8 +73,6 @@ function Chessboard(){
 
   // Default orientation of board is white base line at
   // the bottom. Board is flipped by reseting ids of squares.
-  let flipped = false;
-
   function flip () {
     let arr = [];
   
@@ -91,10 +91,36 @@ function Chessboard(){
     drawPieces();
   }
 
+  // Toggle board colors between
+  // predefined states
+  function toggleColor () {
+    const root = document.documentElement;
+
+    if (currentColor === 'default') {
+      // Green
+      root.style.setProperty('--color-light-square', '#e7e7e7');
+      root.style.setProperty('--color-dark-square', '#35af53');
+      currentColor = 'green';
+    } else
+    if (currentColor === 'green') {
+      // Blue
+      root.style.setProperty('--color-light-square', '#9ee0ff');
+      root.style.setProperty('--color-dark-square', '#5d5fe6');
+      currentColor = 'blue';
+    } else
+    if (currentColor === 'blue'){
+      // Default brown
+      root.style.setProperty('--color-light-square', '#ffce9e');
+      root.style.setProperty('--color-dark-square', '#d18b47');
+      currentColor = 'default';
+    }
+  }
+
   return {
     update: update,
     setHighlights: setHighlights,
     resetHighlights: resetHighlights,
-    flip: flip
+    flip: flip,
+    toggleColor: toggleColor
   };
 }
