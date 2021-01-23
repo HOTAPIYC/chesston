@@ -27,8 +27,8 @@ websocket.on('connection', socket => {
     // Create game with status info
     // from fresh chess game
 
-    const whitePlayer = {id: uuid(), color: 'w'};
-    const blackPlayer = {id: uuid(), color: 'b'};
+    const whitePlayer = {id: uuid(), color: 'white'};
+    const blackPlayer = {id: uuid(), color: 'black'};
 
     const game = {
       whitePlayer: whitePlayer,

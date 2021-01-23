@@ -1,6 +1,7 @@
 const websocket = io();
 const board = Chessboard();
 
+// Local status vars
 let game;
 let id;
 
@@ -71,8 +72,7 @@ websocket.on('started', async args => {
   id = game.whitePlayer.id;
   await showMsgDialog('Send this code to someone to join:', game.blackPlayer.id);
 
-  board.update(game.board);
-  updateStatus();
+  updateUi();
 
   window.history.replaceState({}, '', `/${id}`);
 });
@@ -80,8 +80,7 @@ websocket.on('started', async args => {
 websocket.on('joined', async args => {
   game = args;
 
-  board.update(game.board);
-  updateStatus();
+  updateUi();
 
   window.history.replaceState({}, '', `/${id}`);
 });
@@ -89,13 +88,12 @@ websocket.on('joined', async args => {
 websocket.on('update', args => {
   game = args;
 
-  board.update(game.board);
-  updateStatus();
+  updateUi();
 });
 
 // Update status bar information
-function updateStatus () {
-  const color = game.whitePlayer.id === id ? 'w' : 'b';
+function updateStatusBar (game) {
+  const color = game.whitePlayer.id === id ? 'white' : 'black';
 
   document.querySelector('#status').textContent = `Your color: ${color} | Current turn: ${game.turn.color}`;
   if(game.check) {
@@ -106,8 +104,14 @@ function updateStatus () {
   }
 }
 
+// Redraw board and status bar
+function updateUi () {
+  board.update(game.board);
+  updateStatusBar(game);
+}
+
 // Check if a player ID has been saved to the
-// address bar and rejoin game if that's the case
+// url and rejoin game if that's the case
 window.addEventListener('load', event => {
   const idUrl = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12}/i.exec(window.location.href);
 
