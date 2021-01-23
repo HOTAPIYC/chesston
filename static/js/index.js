@@ -81,6 +81,8 @@ websocket.on('started', async args => {
   // Update UI
   board.drawPieces()
   updateStatus()
+  // Save ID to url
+  window.history.replaceState({}, '', `/${id}`)
 })
 
 websocket.on('joined', async args => {
@@ -89,11 +91,12 @@ websocket.on('joined', async args => {
   legal = args.legal
   color = 'b'
   turn = args.turn
-  await showMsgDialog({msgln1: 'You joined the game!', msgln2: ''})
   board.setState(args.board)
   // Update UI
   board.drawPieces()
   updateStatus()
+  // Save ID to url
+  window.history.replaceState({}, '', `/${id}`)
 })
 
 websocket.on('update', args => {
@@ -118,3 +121,13 @@ function updateStatus () {
     document.querySelector('#status').textContent += ' | Checkmate!'
   }
 }
+
+// Check if a player ID has been saved to the
+// address bar and rejoin game if that's the case
+window.addEventListener('load', event => {
+  const id = /[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[a-f0-9]{4}-[a-f0-9]{12}/i.exec(window.location.href)
+  console.log('ID string in address bar: ' + id)
+  if(id != null) {
+    websocket.emit('join game', id[0])
+  }
+})

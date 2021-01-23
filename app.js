@@ -9,6 +9,7 @@ const { Chess } = require('chess.js')
 const app = express()
 const server = http.createServer(app)
 app.use('/', express.static(__dirname + '/static'))
+app.use('/:id', express.static(__dirname + '/static'))
 
 // Create websocket and attach to server
 const websocket = io(server)
@@ -48,7 +49,7 @@ websocket.on('connection', socket => {
     // Find and get game requested 
     // and join socket room
     socket.join(args)
-    socket.emit('joined', games.find(game => game.blackPlayer === args))
+    socket.emit('joined', games.find(game => game.blackPlayer === args || game.whitePlayer === args))
   })
 
   socket.on('move', args => {
