@@ -15,11 +15,11 @@ Apart from working on the architecture, these features could be next:
 * Support of promotion (modal dialog).
 * Game clock.
 * Numbers and letters around the board for better orientation.
-* Input validation.
+* Input validation when joining a game.
 * Player name display (maybe entered when starting or joining a game).
 * Selection of color when starting a game.
 
-#### Long-term roadmap
+#### Long-term roadmap:
 * Statistic analysis of the game. This may build upon the already existing property _history_ of the game object. As of now, this property holds all moves performed in their correct order. The information attached to each move could however be extended and it maybe questionable if this property has to be send with each move to the clients. It could be made available in a separate route upon request only.
 * Gameplay on a single client when sitting at the same device.
 * Single player mode against an AI.
