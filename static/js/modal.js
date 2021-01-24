@@ -1,21 +1,25 @@
 // Attach multi-line modal dialog to the modal
 // root div and wait for OK button
 function showMsgDialog (...props) {
+  const el = document.querySelector('.modal');
+
+  const msg = [...props].map(text =>`
+    <p>${text}</p>`
+  ).join('');
+
   const msgDialog = `
-    <div class="modal">
-      <div>
-        ${[...props].map(text => `
-        <p>${text}</p>`).join('')}
-        <button>OK</button>
-      </div>
+    <div>
+      ${msg}
+      <button>OK</button>
     </div>
   `;
 
-  document.querySelector('.modal-root').innerHTML += msgDialog;
+  el.innerHTML = msgDialog;
+  el.className = el.className.replace('hidden','visible');
 
   return new Promise((res, rej) => {
-    document.querySelector('.modal').querySelector('button').addEventListener('click', event => {
-      event.target.parentElement.parentElement.remove();
+    el.querySelector('button').addEventListener('click', event => {
+      el.className = el.className.replace('visible','hidden');
       res();
     });
   });
@@ -25,35 +29,44 @@ function showMsgDialog (...props) {
 // root div and wait for Send button. Return
 // content of input field
 function showInputDialog (...props) {
-  const inputDialog =  `
-    <div class="modal">
-      <div>
-        ${[...props].map(text => `
-        <p>${text}</p>`).join('')}
-        <input type="text"></input>
-        <button>Send</button>
-      </div>
+  const el = document.querySelector('.modal');
+
+  const msg = [...props].map(text =>`
+    <p>${text}</p>`
+  ).join('');
+
+  const inputDialog = `
+    <div>
+      ${msg}
+      <input type="text"></input>
+      <button>Send</button>
     </div>
   `;
 
-  document.querySelector('.modal-root').innerHTML += inputDialog;
+  el.innerHTML = inputDialog;
+  el.className = el.className.replace('hidden','visible');
 
   return new Promise((res, rej) => { 
-    document.querySelector('.modal').querySelector('button').addEventListener('click', event => {
+    el.querySelector('button').addEventListener('click', event => {
       const value = document.querySelector('.modal').querySelector('input').value;
-      event.target.parentElement.parentElement.remove();
+      el.className = el.className.replace('visible','hidden');
       res(value);
     });
   });
 }
 
-function showNotification (text) {
-  const el = document.querySelector('#notify1');
-  el.querySelector('p').innerText = text;
+function showNotification (prop) {
+  const el = document.querySelector('.notification');
+
+  const msg = `
+    <p>${prop}<7p>
+  `;
+
+  el.innerHTML = msg;
   el.className = el.className.replace('hidden','visible');
 }
 
 function hideNotification () {
-  const el = document.querySelector('#notify1');
+  const el = document.querySelector('.notification');
   el.className = el.className.replace('visible','hidden');
 }

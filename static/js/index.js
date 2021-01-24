@@ -60,7 +60,7 @@ document.querySelector('#start').addEventListener('click', event => {
 });
 
 document.querySelector('#join').addEventListener('click', async event => {
-  id = await showInputDialog('Enter a UUID v4 you recieved to join:');
+  id = await showInputDialog('Enter the code you recieved to join:');
   websocket.emit('join game', id);
 });
 
