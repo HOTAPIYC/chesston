@@ -59,7 +59,7 @@ function showNotification (prop) {
   const el = document.querySelector('.notification');
 
   const msg = `
-    <p>${prop}<7p>
+    <p>${prop}</p>
   `;
 
   el.innerHTML = msg;
