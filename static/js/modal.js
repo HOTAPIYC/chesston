@@ -46,3 +46,14 @@ function showInputDialog (...props) {
     });
   });
 }
+
+function showNotification (text) {
+  const el = document.querySelector('#notify1');
+  el.querySelector('p').innerText = text;
+  el.className = el.className.replace('hidden','visible');
+}
+
+function hideNotification () {
+  const el = document.querySelector('#notify1');
+  el.className = el.className.replace('visible','hidden');
+}

@@ -60,7 +60,7 @@ document.querySelector('#start').addEventListener('click', event => {
 });
 
 document.querySelector('#join').addEventListener('click', async event => {
-  id = await showInputDialog('Enter a valid ID:');
+  id = await showInputDialog('Enter a UUID v4 you recieved to join:');
   websocket.emit('join game', id);
 });
 
@@ -71,6 +71,10 @@ document.querySelector('#flip').addEventListener('click', event => {
 document.querySelector('#colors').addEventListener('click', event => {
   board.toggleColor();
 });
+
+document.addEventListener('click', event => {
+  hideNotification();
+})
 
 websocket.on('started', async args => {
   game = args;
@@ -88,12 +92,20 @@ websocket.on('joined', async args => {
   updateUi();
 
   window.history.replaceState({}, '', `/${id}`);
+
+  if (id === game.turn.id) {
+    showNotification('It\'s your turn!');
+  }
 });
 
 websocket.on('update', args => {
   game = args;
 
   updateUi();
+
+  if (id === game.turn.id) {
+    showNotification('It\'s your turn!');
+  }
 });
 
 // Redraw board and header

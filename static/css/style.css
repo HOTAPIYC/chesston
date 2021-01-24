@@ -64,3 +64,20 @@
   text-align: center;
   margin-bottom: 0.5rem;
 }
+
+.notification {
+  position: fixed;
+  top: 3rem;
+  background-color: red;
+  padding: 1rem;
+  transition: right 1s;
+  box-shadow: 3px 3px 10px  #00000055;
+}
+
+.notification-visible {
+  right: 0rem;
+}
+
+.notification-hidden {
+  right: -20rem
+}
