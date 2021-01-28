@@ -39,6 +39,7 @@ websocket.on('connection', socket => {
       check: chess.in_check(),
       checkmate: chess.in_checkmate(),
       legal: chess.moves({verbose: true}),
+      startTime: new Date(),
       history: []
     };
 
