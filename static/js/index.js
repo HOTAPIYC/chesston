@@ -26,8 +26,7 @@ async function move (start) {
     // Wait for second valid click on board
     const target = await click();
     // Send selection to server
-    websocket.emit('move', {id: id, move: { from: start, to: target }});
-    console.log('Your move: ' + start + "-" + target);
+    websocket.emit('game:move', {id: id, move: { from: start, to: target }});
     board.resetHighlights();
     // Release click listener and allow
     // renewal of move call
@@ -56,12 +55,12 @@ function click () {
 }
 
 document.querySelector('#start').addEventListener('click', event => {
-  websocket.emit('start game');
+  websocket.emit('game:start');
 });
 
 document.querySelector('#join').addEventListener('click', async event => {
   id = await showInputDialog('Enter the code you recieved to join:');
-  websocket.emit('join game', id);
+  websocket.emit('game:join', id);
 });
 
 document.querySelector('#flip').addEventListener('click', event => {
@@ -76,20 +75,20 @@ document.addEventListener('click', event => {
   hideNotification();
 })
 
-websocket.on('started', async args => {
+websocket.on('game:started', async args => {
   game = args;
   id = game.whitePlayer.id;
   await showMsgDialog('Send this code to someone to join:', game.blackPlayer.id);
 
-  updateUi();
+  initUi();
 
   window.history.replaceState({}, '', `/${id}`);
 });
 
-websocket.on('joined', async args => {
+websocket.on('game:joined', async args => {
   game = args;
 
-  updateUi();
+  initUi();
 
   window.history.replaceState({}, '', `/${id}`);
 
@@ -98,7 +97,7 @@ websocket.on('joined', async args => {
   }
 });
 
-websocket.on('update', args => {
+websocket.on('game:update', args => {
   game = args;
 
   updateUi();
@@ -107,6 +106,11 @@ websocket.on('update', args => {
     showNotification('It\'s your turn!');
   }
 });
+
+function initUi () {
+  board.update(game);
+  header.init(game);
+}
 
 // Redraw board and header
 function updateUi () {

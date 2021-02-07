@@ -21,7 +21,7 @@ const games = [];
 websocket.on('connection', socket => {
   console.log('Client connected');
 
-  socket.on('start game', args => {
+  socket.on('game:start', args => {
     // Create new instance of chess
     const chess = Chess();
     // Create game with status info
@@ -39,7 +39,8 @@ websocket.on('connection', socket => {
       check: chess.in_check(),
       checkmate: chess.in_checkmate(),
       legal: chess.moves({verbose: true}),
-      startTime: new Date(),
+      timeStart: new Date(),
+      timeLastMove: new Date(),
       history: []
     };
 
@@ -48,25 +49,23 @@ websocket.on('connection', socket => {
     // clients more easily only related
     // to this game
     socket.join(game.whitePlayer.id);
-    socket.emit('started', game);
+    socket.emit('game:started', game);
   });
 
-  socket.on('join game', args => {
+  socket.on('game:join', args => {
     // Find and get game requested 
     // and join socket room to access
     // player via id
     const game = games.find(game => game.blackPlayer.id === args || game.whitePlayer.id === args);
 
     socket.join(args);
-    socket.emit('joined', game);
+    socket.emit('game:joined', game);
   });
 
-  socket.on('move', args => {
+  socket.on('game:move', args => {
     games.forEach(game => {
       // Find game to update
       if(game.whitePlayer.id === args.id || game.blackPlayer.id === args.id) {
-        console.log('Game found');
-        
         // Create chess instance with current
         // game status and perform move 
         const chess = Chess(game.fen);
@@ -79,11 +78,12 @@ websocket.on('connection', socket => {
         game.legal = chess.moves({verbose: true});
         game.check = chess.in_check();
         game.checkmate = chess.in_checkmate();
+        game.timeLastMove = new Date();
         game.history.push(args.move);
 
         // Return updated game
-        websocket.sockets.in(game.whitePlayer.id).emit('update', game);
-        websocket.sockets.in(game.blackPlayer.id).emit('update', game);    
+        websocket.sockets.in(game.whitePlayer.id).emit('game:update', game);
+        websocket.sockets.in(game.blackPlayer.id).emit('game:update', game);    
       }
     });
   });

@@ -9,7 +9,27 @@
 </head>
 <body>
   <div class="container">
-    <h3 id="status">Start or join a game!</h3>
+    <div class="status">
+      <h1 class="header">Chesston</h1>
+      <p class="check-status" id="status-check">Check</p>
+      <p class="checkmate-status" id="status-checkmate">Checkmate</p>
+      <div class="game-clock">
+        <p>Game</p>
+        <p id="status-clock-game">00:00:00</p>
+      </div>
+      <div class="curr-turn">
+        <p>Turn</p>
+        <p id="status-turn">-</p>
+      </div>
+      <div class="this-color">
+        <p>You</p>
+        <p id="status-color">-</p>
+      </div>
+      <div class="move-clock">
+        <p>Move</p>
+        <p id="status-clock-move">00:00:00</p>
+      </div>
+    </div>
     <div class="chessboard">
       <div class="row">
         <div id="a8" class="square light"></div>

@@ -11,11 +11,69 @@
   padding: 0.5rem;
 }
 
-#status {
-  text-align: center;
-  margin-top: 0.3rem;
+
+.status {
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+  grid-template-rows: 50px auto;
+  grid-template-areas: 
+    "check header header checkmate"
+    "clock-left turn this-color clock-right";
   margin-bottom: 0.5rem;
 }
+
+.header {
+  justify-self: center;
+  align-self: center;
+  grid-area: header;
+}
+
+.check-status {
+  justify-self: center;
+  align-self: center;
+  grid-area: check;
+  color: lightgray;
+}
+
+.checkmate-status {
+  justify-self: center;
+  align-self: center;
+  grid-area: checkmate;
+  color: lightgray;
+}
+
+.check-alert {
+  color: red;
+}
+
+.game-clock {
+  text-align: center;
+  grid-area: clock-left;
+  background-color: tomato;
+  padding: 0.2rem;
+}
+
+.move-clock {
+  text-align: center;
+  grid-area: clock-right;
+  background-color: tomato;
+  padding: 0.2rem;
+}
+
+.curr-turn {
+  text-align: center;
+  grid-area: turn;
+  background-color: yellowgreen;
+  padding: 0.2rem;
+}
+
+.this-color {
+  text-align: center;
+  grid-area: this-color;
+  background-color: yellowgreen;
+  padding: 0.2rem;
+}
+
 
 .buttons {
   margin-top: 0.5rem;
