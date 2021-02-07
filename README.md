@@ -7,13 +7,14 @@ This application extends the [chess.js](https://github.com/jhlywa/chess.js) libr
 
 The game persists a page refresh by saving your player ID to the URL. Each player ID is unique and connects to one game only. If you wish to play more than one game at once, simply start games in multiple tabs. Save your links to reconnect later.
 
+The clock counts up and does not support fast chess.
+
 The chess pieces are from [wikipedia](https://en.wikipedia.org/wiki/Chess_piece). Replace the png files with custom ones if you wish to customize the board.
 
 Apart from working on the architecture, these features could be next:
 
 #### Next steps:
 * Support of promotion (modal dialog).
-* Game clock.
 * Numbers and letters around the board for better orientation.
 * Input validation when joining a game.
 * Player name display (maybe entered when starting or joining a game).
