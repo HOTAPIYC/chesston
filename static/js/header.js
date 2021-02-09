@@ -1,6 +1,6 @@
 function Header() {
-  const clockGame = Stopwatch(document.querySelector('#status-clock-game'));
-  const clockMove = Stopwatch(document.querySelector('#status-clock-move'));
+  const clockGame = Clock(document.querySelector('#status-clock-game'));
+  const clockMove = Clock(document.querySelector('#status-clock-move'));
 
   // Init header information
   function init(game) {
@@ -12,8 +12,6 @@ function Header() {
 
     clockGame.start(new Date(game.timeStart));
     clockMove.start(new Date(game.timeLastMove));
-
-    checkEvents(game);
   }
 
   // Update header information
@@ -52,7 +50,7 @@ function Header() {
   };
 }
 
-function Stopwatch(element) {
+function Clock(element) {
   let startTime;
   let interval;
 

@@ -11,7 +11,6 @@
   padding: 0.5rem;
 }
 
-
 .status {
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
@@ -44,36 +43,42 @@
 
 .check-alert {
   color: red;
+  background-color: yellow;
+  padding: 0.25rem 0.6rem;
+  border-radius: 10rem;
 }
 
 .game-clock {
   text-align: center;
   grid-area: clock-left;
-  background-color: tomato;
+  background-color: #BBB;
   padding: 0.2rem;
 }
 
 .move-clock {
   text-align: center;
   grid-area: clock-right;
-  background-color: tomato;
+  background-color: #BBB;
   padding: 0.2rem;
 }
 
 .curr-turn {
   text-align: center;
   grid-area: turn;
-  background-color: yellowgreen;
+  background-color: #DDD;
   padding: 0.2rem;
 }
 
 .this-color {
   text-align: center;
   grid-area: this-color;
-  background-color: yellowgreen;
+  background-color: #DDD;
   padding: 0.2rem;
 }
 
+.font-smaller {
+  font-size: smaller;
+}
 
 .buttons {
   margin-top: 0.5rem;
@@ -136,8 +141,8 @@
 
 .notification {
   position: fixed;
-  top: 3rem;
-  background-color: red;
+  top: 3.3rem;
+  background-color: cornflowerblue;
   padding: 1rem;
   transition: right 1s;
   box-shadow: 3px 3px 10px  #00000055;
