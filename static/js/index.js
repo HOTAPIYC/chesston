@@ -125,6 +125,6 @@ window.addEventListener('load', event => {
 
   if(idUrl != null) {
     id = idUrl[0];
-    websocket.emit('join game', id);
+    websocket.emit('game:join', id);
   }
 });
