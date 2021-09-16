@@ -1,7 +1,7 @@
 const template = `
     <div 
         class="board-square"
-        v-bind:class="[color, piece]"
+        v-bind:class="[color, piece, highlight]"
         v-on:click="click()">
     </div>
 `
@@ -11,7 +11,8 @@ export default {
     props: {
         row: Number,
         column: Number,
-        board: Array
+        board: Array,
+        highlights: Array
     },
     data() {
         return {
@@ -30,6 +31,13 @@ export default {
             const piece = this.board[this.row - 1][this.column - 1];
             if (piece !== undefined && piece !== null) {
                 return `fen-${piece.type}-${piece.color}`;
+            } else {
+                return "";
+            }
+        },
+        highlight() {
+            if (this.highlights.includes(this.id)) {
+                return "highlight";
             } else {
                 return "";
             }

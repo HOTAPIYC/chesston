@@ -9,6 +9,7 @@ const template = `
                         v-bind:row="row"
                         v-bind:column="column"
                         v-bind:board="game.board"
+                        v-bind:highlights="highlights"
                         v-on:square-selected="squareSelected">
                     </board-square>
                 </template> 
@@ -42,6 +43,17 @@ export default {
                 }
                 this.lastSquare = square;
                 this.clickcount++;
+            }
+        }
+    },
+    computed: {
+        highlights() {
+            if (this.clickcount % 2 == 0) {
+                const targetsVerbose = this.game.legal.filter(move => move.from === this.lastSquare);
+                const targetsReduced = targetsVerbose.map(element => element.to);
+                return [...targetsReduced, this.lastSquare];
+            } else {
+                return [];
             }
         }
     }

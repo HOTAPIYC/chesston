@@ -22,7 +22,7 @@ const App = {
         return {
             socket: io(),
             id: "",
-            game: { board: new Array(8).fill(new Array(8).fill(null)), turn: { id: "" } },
+            game: { board: new Array(8).fill(new Array(8).fill(null)), legal: [], turn: { id: "" } },
             input: ""
         }
     },

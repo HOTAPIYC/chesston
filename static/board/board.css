@@ -17,6 +17,10 @@
     background-color: red;
 }
 
+.highlight {
+    background-color: aqua;
+}
+
 .fen-b-w{
     background-image: url("./img/bishop_white.png");
 }
