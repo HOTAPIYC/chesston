@@ -8,7 +8,7 @@ const template = `
                     <board-square 
                         v-bind:row="row"
                         v-bind:column="column"
-                        v-bind:board="board"
+                        v-bind:board="game.board"
                         v-on:square-selected="squareSelected">
                     </board-square>
                 </template> 
@@ -23,28 +23,26 @@ export default {
         "board-square": Square
     },
     props: {
-        game: Object
+        game: Object,
+        unlock: Boolean
     },
     data() {
         return {
-            board: new Array(8).fill(new Array(8).fill(null)),
             clickcount: 1,
             lastSquare: ""
         }
     },
     methods: {
         squareSelected(square) {
-            if (this.clickcount % 2 === 0) {
-                if (this.lastSquare !== square) {
-                    this.game.move({ from: this.lastSquare, to: square });
-                    this.board = this.game.board();
+            if(this.unlock) {
+                if (this.clickcount % 2 === 0) {
+                    if (this.lastSquare !== square) {
+                        this.$emit("make-move", { from: this.lastSquare, to: square })
+                    }
                 }
+                this.lastSquare = square;
+                this.clickcount++;
             }
-            this.lastSquare = square;
-            this.clickcount++;
         }
-    },
-    created() {
-        this.board = this.game.board();
     }
 }
