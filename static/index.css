@@ -1,0 +1,12 @@
+* {
+    padding: 0rem;
+    margin: 0rem;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+  
+.container {
+    max-width: 500px;
+    margin: auto;
+    padding: 0.5rem;
+}

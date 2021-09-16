@@ -1,7 +1,11 @@
-import Board from './board/board.js'
+import Board from "./board/board.js"
+import Header from "./header/header.js"
 
 const template = `
-    <div>
+    <div class="container">
+        <status-header
+            v-bind:game="game"
+            v-bind:id="id"/>
         <chess-board 
             v-bind:game="game" 
             v-bind:unlock="unlock"
@@ -16,7 +20,8 @@ const App = {
     el: "main",
     template,
     components: {
-        'chess-board': Board
+        "chess-board": Board,
+        "status-header": Header
     },
     data() {
         return {
