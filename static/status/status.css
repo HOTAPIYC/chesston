@@ -1,0 +1,15 @@
+.status {
+    background-color: blueviolet;
+    width: 480px;
+}
+
+@media (min-width: 960ox) {
+    .status {
+        height: 100%;
+    }
+}
+
+.copy-line {
+    display: flex;
+    justify-content: space-between;
+}

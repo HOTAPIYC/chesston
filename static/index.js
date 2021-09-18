@@ -1,18 +1,27 @@
-import Board from "./board/board.js"
 import Header from "./header/header.js"
+import Board from "./board/board.js"
+import Status from "./status/status.js"
+import Statistics from "./statistics/statistics.js"
 
 const template = `
-    <div class="container">
-        <status-header
-            v-bind:game="game"
-            v-bind:id="id"/>
-        <chess-board 
-            v-bind:game="game" 
-            v-bind:unlock="unlock"
-            v-on:make-move="move"/>
-        <button v-on:click="start">Start</button>
-        <button v-on:click="join">Join</button>
-        <input v-model="input" placeholder="Game ID or FEN string" />
+    <div>
+        <page-header
+            v-on:start-game="start"
+            v-on:join-game="join"/>
+        <div class="container">
+            <div class="action">
+                <chess-board 
+                    v-bind:game="game" 
+                    v-bind:unlock="unlock"
+                    v-on:make-move="move"/>
+                <status-box
+                    v-bind:game="game"
+                    v-bind:id="id"/>
+            </div>
+            <game-statistics
+                v-bind:game="game"
+                v-bind:id="id"/>
+        </div>
     </div>
 `
 
@@ -20,26 +29,25 @@ const App = {
     el: "main",
     template,
     components: {
+        "page-header": Header,
         "chess-board": Board,
-        "status-header": Header
+        "status-box": Status,
+        "game-statistics": Statistics
     },
     data() {
         return {
             socket: io(),
             id: "",
-            game: { board: new Array(8).fill(new Array(8).fill(null)), legal: [], turn: { id: "" } },
-            input: ""
+            game: { board: new Array(8).fill(new Array(8).fill(null)), legal: [] },
         }
     },
     created() {
         this.socket.on("game:started", (args) => {
             this.game = args;
             this.id = args.whitePlayer.id;
-            console.log(args.blackPlayer.id);
         });
         this.socket.on("game:joined", (args) => {
             this.game = args;
-            this.id = this.input;
         });
         this.socket.on("game:update", (args) => {
             this.game = args;
@@ -49,8 +57,9 @@ const App = {
         start() {
             this.socket.emit("game:start");
         },
-        join() {
-            this.socket.emit("game:join", this.input);
+        join(id) {
+            this.socket.emit("game:join", id);
+            this.id = id;
         },
         move(move) {
             this.socket.emit("game:move", {id: this.id, move: move});
@@ -58,7 +67,7 @@ const App = {
     },
     computed: {
         unlock() {
-            return this.id === this.game.turn.id;
+            return this.game.turn ? (this.game.turn.id === this.id) : false;
         }
     }
 }

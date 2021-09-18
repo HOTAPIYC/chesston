@@ -6,7 +6,20 @@
 }
   
 .container {
-    max-width: 500px;
+    max-width: 960px;
     margin: auto;
-    padding: 0.5rem;
+}
+
+.action {
+    display: flex;
+    flex-direction: row;
+}
+
+@media (max-width: 960px) {
+    .container {
+        max-width: 480px;
+    }
+    .action {
+        flex-direction: column;
+    }
 }
