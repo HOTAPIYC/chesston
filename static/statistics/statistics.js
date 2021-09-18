@@ -1,6 +1,9 @@
 const template = `
     <div class="statistics">
-        <p>Last move: -</p>
+        <h5>Last moves</h5>
+        <template v-for="(move, index) in lastMoves">
+            <p>{{ index + 1 }} - {{ move.from }}-{{ move.to }}</p>
+        </template>
     </div>
 `
 
@@ -9,5 +12,10 @@ export default {
     props: {
         game: Object,
         id: String
+    },
+    computed: {
+        lastMoves() {
+            return this.game.history ? this.game.history : [];
+        }
     }
 }
