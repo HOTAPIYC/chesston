@@ -1,5 +1,15 @@
+import Clock from "./clock.js"
+
 const template = `
     <div class="status">
+        <h5>Game clock</h5>
+        <p><game-clock 
+            v-bind:referenceTime="game.timeStart"
+            v-bind:pulse="pulse"/></p>
+        <h5>Move duration</h5>
+        <p><game-clock 
+            v-bind:referenceTime="game.timeLastMove"
+            v-bind:pulse="pulse"/></p>
         <h5>Current turn</h5>
         <p>{{ turn }}</p>
         <h5>White Player<span v-if="id === white"> (you)</span></h5>
@@ -22,9 +32,17 @@ const template = `
 
 export default {
     template,
+    components: {
+        "game-clock": Clock
+    },
     props: {
         game: Object,
         id: String
+    },
+    data() {
+        return {
+            pulse: true
+        }
     },
     computed: {
         turn() {
@@ -44,5 +62,10 @@ export default {
         copy(string) {
             navigator.clipboard.writeText(string);
         }
+    },
+    mounted() {
+        setInterval(() => {
+            this.pulse = !this.pulse;
+        }, 1000);
     }
 }

@@ -39,8 +39,8 @@ websocket.on('connection', socket => {
       check: chess.in_check(),
       checkmate: chess.in_checkmate(),
       legal: chess.moves({verbose: true}),
-      timeStart: new Date(),
-      timeLastMove: new Date(),
+      timeStart: Date.now(),
+      timeLastMove: Date.now(),
       history: []
     };
 
@@ -78,7 +78,7 @@ websocket.on('connection', socket => {
         game.legal = chess.moves({verbose: true});
         game.check = chess.in_check();
         game.checkmate = chess.in_checkmate();
-        game.timeLastMove = new Date();
+        game.timeLastMove = Date.now();
         game.history.push(args.move);
 
         // Return updated game
