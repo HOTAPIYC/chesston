@@ -1,11 +1,11 @@
 .status {
     background-color: blueviolet;
-    width: 480px;
 }
 
-@media (min-width: 960ox) {
+@media (min-width: 960px) {
     .status {
-        height: 100%;
+        height: 480px;
+        width: 480px;
     }
 }
 
