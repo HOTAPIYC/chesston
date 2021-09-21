@@ -18,9 +18,11 @@ export default {
     methods: {
         start() {
             this.$emit("start-game", this.input);
+            this.input = "";
         },
         join() {
-            this.$emit("join-game", this.input)
+            this.$emit("join-game", this.input);
+            this.input = "";
         }
     }
 }
