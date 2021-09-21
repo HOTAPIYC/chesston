@@ -54,8 +54,8 @@ const App = {
         });
     },
     methods: {
-        start() {
-            this.socket.emit("game:start");
+        start(fen) {
+            this.socket.emit("game:start", fen);
         },
         join(id) {
             this.socket.emit("game:join", id);

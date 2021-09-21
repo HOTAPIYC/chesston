@@ -22,10 +22,9 @@ websocket.on('connection', socket => {
   console.log('Client connected');
 
   socket.on('game:start', args => {
-    // Create new instance of chess
-    const chess = Chess();
-    // Create game with status info
-    // from fresh chess game
+    // Create game. Default position is loaded
+    // on 'undefined' fen string.
+    const chess = Chess(args === "" ? undefined : args);
 
     const whitePlayer = {id: uuid(), color: 'white'};
     const blackPlayer = {id: uuid(), color: 'black'};
@@ -35,7 +34,7 @@ websocket.on('connection', socket => {
       blackPlayer: blackPlayer,
       board: chess.board(),
       fen: chess.fen(),
-      turn: whitePlayer,
+      turn: chess.turn() === 'w' ? whitePlayer : blackPlayer,
       check: chess.in_check(),
       checkmate: chess.in_checkmate(),
       legal: chess.moves({verbose: true}),
