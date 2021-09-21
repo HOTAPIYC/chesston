@@ -4,10 +4,23 @@
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
-  
+
+body {
+    background-color: #284B63;
+}
+
+button {
+    min-width: 45px;
+}
+
 .container {
-    max-width: 960px;
+    max-width: 975px;
     margin: auto;
+    padding: 0 5px;
+}
+
+.content {
+    margin-top: 5px;
 }
 
 .action {
@@ -15,9 +28,9 @@
     flex-direction: row;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 970px) {
     .container {
-        max-width: 480px;
+        max-width: 490px;
     }
     .action {
         flex-direction: column;

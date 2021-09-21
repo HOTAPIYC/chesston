@@ -1,3 +1,7 @@
+.board {
+    margin-bottom: 5px;
+}
+
 .board-square {
     width: 60px;
     height: 0;
@@ -11,11 +15,11 @@
 }
 
 .light {
-    background-color: lightcoral;
+    background-color: #ffce9e;
 }
 
 .dark {
-    background-color: red;
+    background-color: #d18b47;
 }
 
 .highlight {

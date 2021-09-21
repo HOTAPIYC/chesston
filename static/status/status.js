@@ -2,30 +2,42 @@ import Clock from "./clock.js"
 
 const template = `
     <div class="status">
-        <h5>Game clock</h5>
-        <p><game-clock 
-            v-bind:referenceTime="game.timeStart"
-            v-bind:pulse="pulse"/></p>
-        <h5>Move duration</h5>
-        <p><game-clock 
-            v-bind:referenceTime="game.timeLastMove"
-            v-bind:pulse="pulse"/></p>
-        <h5>Current turn</h5>
-        <p>{{ turn }}</p>
-        <h5>White Player<span v-if="id === white"> (you)</span></h5>
-        <div class="copy-line">
-            <p>{{ white }}</p>
-            <button v-on:click="copy(white)">Copy</button>
+        <div>
+            <h5>Game clock</h5>
+            <p><game-clock 
+                v-bind:referenceTime="game.timeStart"
+                v-bind:pulse="pulse"/></p>
         </div>
-        <h5>Black Player<span v-if="id === black"> (you)</span></h5>
-        <div class="copy-line">
-            <p>{{ black }}</p>
-            <button v-on:click="copy(black)">Copy</button>
+        <div>
+            <h5>Move duration</h5>
+            <p><game-clock 
+                v-bind:referenceTime="game.timeLastMove"
+                v-bind:pulse="pulse"/></p>
         </div>
-        <h5>FEN</h5>
-        <div class="copy-line">
-            <p>{{ fen }}</p>
-            <button v-on:click="copy(fen)">Copy</button>
+        <div>
+            <h5>Current turn</h5>
+            <p>{{ turn }}</p>
+        </div>
+        <div>
+            <h5>White Player<span v-if="id === white"> (you)</span></h5>
+            <div class="copy-line">
+                <p>{{ white }}</p>
+                <button v-on:click="copy(white)">Copy</button>
+            </div>
+        </div>
+        <div>
+            <h5>Black Player<span v-if="id === black"> (you)</span></h5>
+            <div class="copy-line">
+                <p>{{ black }}</p>
+                <button v-on:click="copy(black)">Copy</button>
+            </div>
+        </div>
+        <div>
+            <h5>FEN</h5>
+            <div class="copy-line">
+                <p>{{ fen }}</p>
+                <button v-on:click="copy(fen)">Copy</button>
+            </div>
         </div>
     </div>
 `

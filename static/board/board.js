@@ -1,7 +1,7 @@
 import Square from './square.js'
 
 const template = `
-    <div>
+    <div class="board">
         <template v-for="row in 8">
             <div class="board-row">
                 <template v-for="column in 8">

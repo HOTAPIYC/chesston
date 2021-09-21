@@ -8,7 +8,7 @@ const template = `
         <page-header
             v-on:start-game="start"
             v-on:join-game="join"/>
-        <div class="container">
+        <div class="container content">
             <div class="action">
                 <chess-board 
                     v-bind:game="game" 
