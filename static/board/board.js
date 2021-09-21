@@ -35,23 +35,33 @@ export default {
     },
     methods: {
         squareSelected(square) {
+            const isLegalTarget = (this.legalTargets()).includes(square);
+            const isSelectablePiece = (this.legalSelections()).includes(square)
+
             if(this.unlock) {
-                if (this.clickcount % 2 === 0) {
-                    if (this.lastSquare !== square) {
-                        this.$emit("make-move", { from: this.lastSquare, to: square })
+                if (isLegalTarget || isSelectablePiece) {
+                    if (this.clickcount % 2 === 0) {
+                        if (this.lastSquare !== square && isLegalTarget) {
+                            this.$emit("make-move", { from: this.lastSquare, to: square })
+                        }
                     }
                 }
                 this.lastSquare = square;
                 this.clickcount++;
             }
+        },
+        legalTargets() {
+            const targets = this.game.legal.filter(move => move.from === this.lastSquare);
+            return targets.map(element => element.to);
+        },
+        legalSelections() {
+            return this.game.legal.map(element => element.from);
         }
     },
     computed: {
         highlights() {
             if (this.clickcount % 2 == 0) {
-                const targetsVerbose = this.game.legal.filter(move => move.from === this.lastSquare);
-                const targetsReduced = targetsVerbose.map(element => element.to);
-                return [...targetsReduced, this.lastSquare];
+                return [...this.legalTargets(), this.lastSquare];
             } else {
                 return [];
             }
