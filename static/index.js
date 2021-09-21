@@ -45,6 +45,7 @@ const App = {
         this.socket.on("game:started", (args) => {
             this.game = args;
             this.id = args.whitePlayer.id;
+            sessionStorage.setItem('id', this.id);
         });
         this.socket.on("game:joined", (args) => {
             this.game = args;
@@ -52,6 +53,11 @@ const App = {
         this.socket.on("game:update", (args) => {
             this.game = args;
         });
+
+        const id = sessionStorage.getItem('id');
+        if(id) {
+            this.join(id);
+        }
     },
     methods: {
         start(fen) {
@@ -60,6 +66,7 @@ const App = {
         join(id) {
             this.socket.emit("game:join", id);
             this.id = id;
+            sessionStorage.setItem('id', this.id);
         },
         move(move) {
             this.socket.emit("game:move", {id: this.id, move: move});

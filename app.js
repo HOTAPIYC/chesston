@@ -57,8 +57,10 @@ websocket.on('connection', socket => {
     // player via id
     const game = games.find(game => game.blackPlayer.id === args || game.whitePlayer.id === args);
 
-    socket.join(args);
-    socket.emit('game:joined', game);
+    if(game) {
+      socket.join(args);
+      socket.emit('game:joined', game);
+    }
   });
 
   socket.on('game:move', args => {
