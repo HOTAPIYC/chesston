@@ -22,8 +22,12 @@
     background-color: #d18b47;
 }
 
-.highlight {
-    background-color: aqua;
+.light.highlight {
+    background-color: #00FF00;
+}
+
+.dark.highlight {
+    background-color: #00E500;
 }
 
 .fen-b-w{
