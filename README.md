@@ -1,9 +1,9 @@
 [![GitHub license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 # Chesston
-This application extends the [chess.js](https://github.com/jhlywa/chess.js) library with a user interface. Start a game and join by entering the returned UUID in a second client. The player starting the game plays white. :joystick:
+This application extends the [chess.js](https://github.com/jhlywa/chess.js) library with a user interface. Start a game and join by entering the returned UUID of the black player in a second client. The player starting the game plays white. :joystick:
 
-The game persists a page refresh by saving your player ID to the URL. Each player ID is unique and connects to one game only. If you wish to play more than one game at once, simply start games in multiple tabs. Save your links to reconnect later.
+The game persists a page refresh by saving your player ID to the session storage. Each player ID is unique and connects to one game only. If you wish to play more than one game at once, simply start games in multiple tabs. Save your links to reconnect later.
 
 The clock counts up and does not support fast chess.
 

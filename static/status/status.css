@@ -1,0 +1,28 @@
+.status {
+    background-color: #B4B8AB;
+    padding: 5px 5px 0 5px;
+    margin-bottom: 5px;
+}
+
+.status > div {
+    margin-bottom: 5px;
+}
+
+.status > div > h5 {
+    color: #111;
+    font-weight: normal;
+}
+
+@media (min-width: 970px) {
+    .status {
+        height: 480px;
+        width: 480px;
+        margin-left: 5px;
+    }
+}
+
+.copy-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}

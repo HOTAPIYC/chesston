@@ -22,10 +22,9 @@ websocket.on('connection', socket => {
   console.log('Client connected');
 
   socket.on('game:start', args => {
-    // Create new instance of chess
-    const chess = Chess();
-    // Create game with status info
-    // from fresh chess game
+    // Create game. Default position is loaded
+    // on 'undefined' fen string.
+    const chess = Chess(args === "" ? undefined : args);
 
     const whitePlayer = {id: uuid(), color: 'white'};
     const blackPlayer = {id: uuid(), color: 'black'};
@@ -35,12 +34,12 @@ websocket.on('connection', socket => {
       blackPlayer: blackPlayer,
       board: chess.board(),
       fen: chess.fen(),
-      turn: whitePlayer,
+      turn: chess.turn() === 'w' ? whitePlayer : blackPlayer,
       check: chess.in_check(),
       checkmate: chess.in_checkmate(),
       legal: chess.moves({verbose: true}),
-      timeStart: new Date(),
-      timeLastMove: new Date(),
+      timeStart: Date.now(),
+      timeLastMove: Date.now(),
       history: []
     };
 
@@ -58,8 +57,10 @@ websocket.on('connection', socket => {
     // player via id
     const game = games.find(game => game.blackPlayer.id === args || game.whitePlayer.id === args);
 
-    socket.join(args);
-    socket.emit('game:joined', game);
+    if(game) {
+      socket.join(args);
+      socket.emit('game:joined', game);
+    }
   });
 
   socket.on('game:move', args => {
@@ -78,7 +79,7 @@ websocket.on('connection', socket => {
         game.legal = chess.moves({verbose: true});
         game.check = chess.in_check();
         game.checkmate = chess.in_checkmate();
-        game.timeLastMove = new Date();
+        game.timeLastMove = Date.now();
         game.history.push(args.move);
 
         // Return updated game

@@ -1,136 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chesston</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/board.css">
+    <title>Chesston Vue</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="board/board.css">
+    <link rel="stylesheet" href="header/header.css">
+    <link rel="stylesheet" href="status/status.css">
+    <link rel="stylesheet" href="statistics/statistics.css">
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="index.js" type="module"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="status">
-      <h1 class="header">Chesston</h1>
-      <p class="check-status" id="status-check">Check</p>
-      <p class="checkmate-status" id="status-checkmate">Checkmate</p>
-      <div class="game-clock">
-        <p class="font-smaller">Game</p>
-        <p id="status-clock-game">00:00:00</p>
-      </div>
-      <div class="curr-turn">
-        <p class="font-smaller">Current turn</p>
-        <p id="status-turn">-</p>
-      </div>
-      <div class="this-color">
-        <p class="font-smaller">Your color</p>
-        <p id="status-color">-</p>
-      </div>
-      <div class="move-clock">
-        <p class="font-smaller">Move</p>
-        <p id="status-clock-move">00:00:00</p>
-      </div>
-    </div>
-    <div class="chessboard">
-      <div class="row">
-        <div id="a8" class="square light"></div>
-        <div id="b8" class="square dark"></div>
-        <div id="c8" class="square light"></div>
-        <div id="d8" class="square dark"></div>
-        <div id="e8" class="square light"></div>
-        <div id="f8" class="square dark"></div>
-        <div id="g8" class="square light"></div>
-        <div id="h8" class="square dark"></div>
-      </div>
-      <div class="row">
-        <div id="a7" class="square dark"></div>
-        <div id="b7" class="square light"></div>
-        <div id="c7" class="square dark"></div>
-        <div id="d7" class="square light"></div>
-        <div id="e7" class="square dark"></div>
-        <div id="f7" class="square light"></div>
-        <div id="g7" class="square dark"></div>
-        <div id="h7" class="square light"></div>
-      </div>
-      <div class="row">
-        <div id="a6" class="square light"></div>
-        <div id="b6" class="square dark"></div>
-        <div id="c6" class="square light"></div>
-        <div id="d6" class="square dark"></div>
-        <div id="e6" class="square light"></div>
-        <div id="f6" class="square dark"></div>
-        <div id="g6" class="square light"></div>
-        <div id="h6" class="square dark"></div>        
-      </div>
-      <div class="row">
-        <div id="a5" class="square dark"></div>
-        <div id="b5" class="square light"></div>
-        <div id="c5" class="square dark"></div>
-        <div id="d5" class="square light"></div>
-        <div id="e5" class="square dark"></div>
-        <div id="f5" class="square light"></div>
-        <div id="g5" class="square dark"></div>
-        <div id="h5" class="square light"></div>        
-      </div>
-      <div class="row">
-        <div id="a4" class="square light"></div>
-        <div id="b4" class="square dark"></div>
-        <div id="c4" class="square light"></div>
-        <div id="d4" class="square dark"></div>
-        <div id="e4" class="square light"></div>
-        <div id="f4" class="square dark"></div>
-        <div id="g4" class="square light"></div>
-        <div id="h4" class="square dark"></div>           
-      </div>
-      <div class="row">
-        <div id="a3" class="square dark"></div>
-        <div id="b3" class="square light"></div>
-        <div id="c3" class="square dark"></div>
-        <div id="d3" class="square light"></div>
-        <div id="e3" class="square dark"></div>
-        <div id="f3" class="square light"></div>
-        <div id="g3" class="square dark"></div>
-        <div id="h3" class="square light"></div>             
-      </div>
-      <div class="row">
-        <div id="a2" class="square light"></div>
-        <div id="b2" class="square dark"></div>
-        <div id="c2" class="square light"></div>
-        <div id="d2" class="square dark"></div>
-        <div id="e2" class="square light"></div>
-        <div id="f2" class="square dark"></div>
-        <div id="g2" class="square light"></div>
-        <div id="h2" class="square dark"></div>              
-      </div>
-      <div class="row">
-        <div id="a1" class="square dark"></div>
-        <div id="b1" class="square light"></div>
-        <div id="c1" class="square dark"></div>
-        <div id="d1" class="square light"></div>
-        <div id="e1" class="square dark"></div>
-        <div id="f1" class="square light"></div>
-        <div id="g1" class="square dark"></div>
-        <div id="h1" class="square light"></div>           
-      </div>
-    </div>
-    <div class="buttons">
-      <button id="flip">Flip</button><button id="colors">Colors</button>
-    </div>
-    <div class="buttons">
-      <button id="start">Start game</button><button id="join">Join game</button>
-    </div>
-  </div>
-  <div class="notification notification-hidden">
-    <p>This is some important info!</p>
-  </div>
-  <div class="modal modal-hidden">
-    <div>
-      <p>This is a modal dialog box.</p>
-    </div>
-  </div>
-  <script src="/socket.io/socket.io.js"></script>
-  <script src="js/board.js"></script>
-  <script src="js/modal.js"></script>
-  <script src="js/header.js"></script>
-  <script src="js/index.js"></script>
+    <main>
+    </main>
 </body>
 </html>
