@@ -4,25 +4,21 @@ const io = require('socket.io');
 const { v4:uuid } = require('uuid');
 const { Chess } = require('chess.js');
 
-// Express server to serve static
-// files of page and content
 const app = express();
 const server = http.createServer(app);
 app.use('/', express.static(__dirname + '/static'));
 app.use('/:id', express.static(__dirname + '/static'));
 
-// Create websocket and attach to server
 const websocket = io(server);
 
 // Array holding all current games
 const games = [];
 
-// Real-time interaction between server and boards
 websocket.on('connection', socket => {
   console.log('Client connected');
 
   socket.on('game:start', args => {
-    // Create game. Default position is loaded
+    // Create game, default position is loaded
     // on 'undefined' fen string.
     const chess = Chess(args === "" ? undefined : args);
 
@@ -52,9 +48,6 @@ websocket.on('connection', socket => {
   });
 
   socket.on('game:join', args => {
-    // Find and get game requested 
-    // and join socket room to access
-    // player via id
     const game = games.find(game => game.blackPlayer.id === args || game.whitePlayer.id === args);
 
     if(game) {
@@ -67,9 +60,10 @@ websocket.on('connection', socket => {
     games.forEach(game => {
       // Find game to update
       if(game.whitePlayer.id === args.id || game.blackPlayer.id === args.id) {
-        // Create chess instance with current
-        // game status and perform move 
+        // Create chess instance with current game status
         const chess = Chess(game.fen);
+        const piece = chess.get(args.move.from);
+
         chess.move(args.move);
 
         // Update game status information
@@ -80,7 +74,16 @@ websocket.on('connection', socket => {
         game.check = chess.in_check();
         game.checkmate = chess.in_checkmate();
         game.timeLastMove = Date.now();
-        game.history.push(args.move);
+
+        // Update game history
+        const extendedMove = args.move;
+        extendedMove.duration = Date.now() - game.timeLastMove;
+        extendedMove.event = game.checkmate ? "Checkmate" : (game.check ? "Check" : "");
+        extendedMove.piece = piece;
+
+        console.log(extendedMove);
+
+        game.history.push(extendedMove);
 
         // Return updated game
         websocket.sockets.in(game.whitePlayer.id).emit('game:update', game);
