@@ -62,9 +62,9 @@ websocket.on('connection', socket => {
       if(game.whitePlayer.id === args.id || game.blackPlayer.id === args.id) {
         // Create chess instance with current game status
         const chess = Chess(game.fen);
-        const piece = chess.get(args.move.from);
 
-        chess.move(args.move);
+        const move = chess.move(args.move);
+        move.duration = Date.now() - game.timeLastMove;
 
         // Update game status information
         game.board = chess.board();
@@ -76,14 +76,11 @@ websocket.on('connection', socket => {
         game.timeLastMove = Date.now();
 
         // Update game history
-        const extendedMove = args.move;
-        extendedMove.duration = Date.now() - game.timeLastMove;
-        extendedMove.event = game.checkmate ? "Checkmate" : (game.check ? "Check" : "");
-        extendedMove.piece = piece;
+        move.event = game.checkmate ? "Checkmate" : (game.check ? "Check" : "");
 
-        console.log(extendedMove);
+        console.log(move);
 
-        game.history.push(extendedMove);
+        game.history.push(move);
 
         // Return updated game
         websocket.sockets.in(game.whitePlayer.id).emit('game:update', game);

@@ -1,25 +1,18 @@
+import Move from "./move.js"
+
 const template = `
     <div class="statistics">
         <div>
             <h5>Last moves</h5>
-            <table id="firstTable">
-            <thead>
-            <tr>
-                <th>No</th>
-                <th>Squares</th>
-                <th>Piece</th>
-                <th>Event</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(move, index) in lastMoves">
-                <td>{{ index + 1 }}</td>
-                <td>{{ move.from }}-{{ move.to }}</td>
-                <td>{{ move.piece.type }}</td>
-                <td>{{ move.event }}</td>
-            </tr>
-            </tbody>
-            </table>
+            <ul>
+                <template v-for="(move, index) in game.history">
+                    <saved-move
+                        v-bind:index="index"
+                        v-bind:move="move"
+                        class="saved-move">
+                    </saved-move>
+                </template>
+            </ul>
             <p v-if="lastMoves.length === 0">No moves saved</p>
         </div>
     </div>
@@ -27,6 +20,9 @@ const template = `
 
 export default {
     template,
+    components: {
+        "saved-move": Move
+    },
     props: {
         game: Object,
         id: String
@@ -34,6 +30,11 @@ export default {
     computed: {
         lastMoves() {
             return this.game.history ? this.game.history : [];
+        },
+        piece(move) {
+            console.log(move.piece);
+            //return `fen-${move.piece}-${move.color}`;
+            return "icon";
         }
     }
 }

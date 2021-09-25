@@ -12,3 +12,19 @@
     color: #111;
     font-weight: normal;
 }
+
+.saved-move {
+    display: flex;
+    align-items: flex-end;
+}
+
+.saved-move > * {
+    margin-right: 3px;
+}
+
+.icon {
+    height: 1.2rem;
+    width: 1.2rem;
+    background-position: center;
+    background-size: contain;
+}
