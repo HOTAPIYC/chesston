@@ -36,3 +36,7 @@ button {
         flex-direction: column;
     }
 }
+
+.text-smaller {
+    font-size: smaller;
+}
