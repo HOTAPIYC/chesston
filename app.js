@@ -65,6 +65,7 @@ websocket.on('connection', socket => {
 
         const move = chess.move(args.move);
         move.duration = Date.now() - game.timeLastMove;
+        move.event = chess.in_checkmate() ? "Checkmate" : (chess.in_check() ? "Check" : "");
 
         // Update game status information
         game.board = chess.board();
@@ -74,12 +75,6 @@ websocket.on('connection', socket => {
         game.check = chess.in_check();
         game.checkmate = chess.in_checkmate();
         game.timeLastMove = Date.now();
-
-        // Update game history
-        move.event = game.checkmate ? "Checkmate" : (game.check ? "Check" : "");
-
-        console.log(move);
-
         game.history.push(move);
 
         // Return updated game

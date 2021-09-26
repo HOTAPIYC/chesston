@@ -1,7 +1,8 @@
 .statistics {
     background-color: #B4B8AB;
-    padding: 5px 5px 0 5px;
+    padding: 5px 5px 0;
     margin-bottom: 5px;
+    overflow: auto;
 }
 
 .statistics > div {
@@ -23,8 +24,20 @@
 }
 
 .icon {
-    height: 1.2rem;
-    width: 1.2rem;
+    height: 1rem;
+    width: 1rem;
     background-position: center;
     background-size: contain;
+}
+
+.time-split {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+@media (min-width: 970px) {
+    .time-split {
+        width: 50%;
+    }
 }

@@ -2,6 +2,7 @@
     background-color: #B4B8AB;
     padding: 5px 5px 0 5px;
     margin-bottom: 5px;
+    overflow: auto;
 }
 
 .status > div {
