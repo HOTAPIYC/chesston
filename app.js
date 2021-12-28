@@ -8,7 +8,12 @@ const app = express();
 const server = http.createServer(app);
 app.use('/', express.static(__dirname + '/public'));
 
-const websocket = io(server);
+const websocket = io(server, {
+  cors: {
+    origin: "http://localhost:8080",
+    methods: ["GET", "POST"]
+  }
+});
 
 // Array holding all current games
 const games = [];
@@ -44,7 +49,7 @@ websocket.on('connection', socket => {
     // clients more easily only related
     // to this game
     socket.join(game.whitePlayer.id);
-    socket.emit('game:started', game);
+    socket.emit('game:started', { game, timestamp: Date.now() });
   });
 
   socket.on('game:join', args => {
@@ -52,7 +57,7 @@ websocket.on('connection', socket => {
 
     if(game) {
       socket.join(args);
-      socket.emit('game:joined', game);
+      socket.emit('game:joined', { game, timestamp: Date.now() });
     }
   });
 
@@ -79,8 +84,8 @@ websocket.on('connection', socket => {
     game.history.push(move);
 
     // Return updated game
-    websocket.sockets.in(game.whitePlayer.id).emit('game:update', game);
-    websocket.sockets.in(game.blackPlayer.id).emit('game:update', game);    
+    websocket.sockets.in(game.whitePlayer.id).emit('game:update', { game, timestamp: Date.now() });
+    websocket.sockets.in(game.blackPlayer.id).emit('game:update', { game, timestamp: Date.now() });    
   });
 });
 
@@ -121,7 +126,7 @@ function updatePieces(move, pieces) {
     pieces[indexMovedPiece].position = move.to;
   }
   if(indexCapturedPiece > -1) {
-    this.pieces.splice(indexCapturedPiece, 1);
+    pieces.splice(indexCapturedPiece, 1);
   }
 
   return pieces;
